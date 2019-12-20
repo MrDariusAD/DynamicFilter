@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29123.89
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamicFilter.WebApi", "DynamicFilter\DynamicFilter.WebApi.csproj", "{C961790A-ED18-4432-84ED-1C034CC6E13C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamicFilter.Domain.Core", "DynamicFilter.Domain.Core\DynamicFilter.Domain.Core.csproj", "{214457DB-ADC5-48A1-B734-CCCD50C24233}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamicFilter.Domain", "DynamicFilter.Domain\DynamicFilter.Domain.csproj", "{C248C25D-49EB-4E5D-B84C-3C27D4DBEA1C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamicFilter.MongoDb", "DynamicFilter.MongoDb\DynamicFilter.MongoDb.csproj", "{EFE646C4-FC58-49EC-9DD7-343B4B9B007F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicFilter.MongoDb.Tests", "DynamicFilter.MongoDb.Tests\DynamicFilter.MongoDb.Tests.csproj", "{1166AE1C-E67A-4071-9EC1-A2093F246442}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C961790A-ED18-4432-84ED-1C034CC6E13C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C961790A-ED18-4432-84ED-1C034CC6E13C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C961790A-ED18-4432-84ED-1C034CC6E13C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C961790A-ED18-4432-84ED-1C034CC6E13C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{214457DB-ADC5-48A1-B734-CCCD50C24233}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{214457DB-ADC5-48A1-B734-CCCD50C24233}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{214457DB-ADC5-48A1-B734-CCCD50C24233}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{214457DB-ADC5-48A1-B734-CCCD50C24233}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C248C25D-49EB-4E5D-B84C-3C27D4DBEA1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C248C25D-49EB-4E5D-B84C-3C27D4DBEA1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C248C25D-49EB-4E5D-B84C-3C27D4DBEA1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C248C25D-49EB-4E5D-B84C-3C27D4DBEA1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFE646C4-FC58-49EC-9DD7-343B4B9B007F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFE646C4-FC58-49EC-9DD7-343B4B9B007F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFE646C4-FC58-49EC-9DD7-343B4B9B007F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFE646C4-FC58-49EC-9DD7-343B4B9B007F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1166AE1C-E67A-4071-9EC1-A2093F246442}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1166AE1C-E67A-4071-9EC1-A2093F246442}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1166AE1C-E67A-4071-9EC1-A2093F246442}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1166AE1C-E67A-4071-9EC1-A2093F246442}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {730389F0-10D0-498D-B501-77612C8D7FC3}
+	EndGlobalSection
+EndGlobal
