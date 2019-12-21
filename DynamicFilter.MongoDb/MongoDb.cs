@@ -43,6 +43,11 @@ namespace DynamicFilter.MongoDb {
         _collection = _database.GetCollection<Item>(collectionName);
       }
     }
+
+    public static FilterDefinition<Item> GetIdFilterDefinition(string id)
+    {
+      return Builders<Item>.Filter.Eq("_id", ObjectId.Parse(id));
+    }
     #endregion
 
     #region Load
@@ -85,7 +90,7 @@ namespace DynamicFilter.MongoDb {
       if (!_isConnected) return null;
       OpenCollection(nameof(Item) + "s");
       var test = _collection.Find(_ => true).ToList();
-      var query = _collection.FindSync(Builders<Item>.Filter.Eq("_id", ObjectId.Parse(id))).ToList();
+      var query = _collection.FindSync(GetIdFilterDefinition(id)).ToList();
       var cur = query;
       var res = cur?.FirstOrDefault();
       return res;
@@ -101,8 +106,9 @@ namespace DynamicFilter.MongoDb {
       OpenCollection(nameof(Item) + "s");
       _collection.InsertOne(itemToSave);
     }
+
     public static void Save(List<Item> itemsToSave) {
-      if (!_isConnected) return;
+      if (!_isConnected || !itemsToSave.Any()) return;
       OpenCollection(nameof(Item) + "s");
       _collection.InsertMany(itemsToSave);
     }
@@ -114,9 +120,26 @@ namespace DynamicFilter.MongoDb {
     {
       if (!_isConnected) return false;
       OpenCollection(nameof(Item) + "s");
-      return _collection.DeleteOne(x=> x.Id == ObjectId.Parse(id)).DeletedCount>0;
+      return _collection.DeleteOne(GetIdFilterDefinition(id)).DeletedCount>0;
+    }
+    #endregion
+
+    #region Edit
+
+    public static bool Edit(string id, string fieldName, string newValue)
+    {
+      if (!_isConnected) return false;
+      OpenCollection(nameof(Item) + "s");
+      var updateDef = Builders<Item>.Update.Set($"Attributes.$.Value", newValue);
+      return _collection.UpdateOne(GetIdFilterDefinition(id) & Builders<Item>.Filter.Eq("Attributes.Name", fieldName), updateDef).ModifiedCount>0;
     }
 
+    public static bool Edit(string id, string fieldName, AttributeType newType) {
+      if (!_isConnected) return false;
+      OpenCollection(nameof(Item) + "s");
+      var updateDef = Builders<Item>.Update.Set($"Attributes.$.Type", newType);
+      return _collection.UpdateOne(GetIdFilterDefinition(id) & Builders<Item>.Filter.Eq("Attributes.Name", fieldName), updateDef).ModifiedCount > 0;
+    }
 
     #endregion
   }

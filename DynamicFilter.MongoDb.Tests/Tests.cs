@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using DynamicFilter.Domain.Core;
 using FluentAssertions;
 using MongoDB.Bson;
@@ -61,7 +62,8 @@ namespace DynamicFilter.MongoDb.Tests {
       MongoDb.Delete(id);
     }
 
-    [Fact] public void Load_SaveMultipleExampleItemsIntoTheDatabase_ResultContainsAllExampleItems() {
+    [Fact] 
+    public void Load_SaveMultipleExampleItemsIntoTheDatabase_ResultContainsAllExampleItems() {
       //Arrange
       MongoDb.Connect("localhost");
       var item1 = new Item {
@@ -114,10 +116,7 @@ namespace DynamicFilter.MongoDb.Tests {
       };
 
       //Act
-      MongoDb.Save(item1);
-      MongoDb.Save(item2);
-      MongoDb.Save(item3);
-      MongoDb.Save(item4);
+      MongoDb.Save(new List<Item>{item1, item2, item3, item4});
 
       //Assert
       var res = MongoDb.Load();
@@ -130,6 +129,38 @@ namespace DynamicFilter.MongoDb.Tests {
       MongoDb.Delete(item2.Id.ToString());
       MongoDb.Delete(item3.Id.ToString());
       MongoDb.Delete(item4.Id.ToString());
+    }
+
+    [Fact]
+    public void Edit_EditAnDocumentInTheDatabase_DocumentIsEdited() {
+      //Arrange
+      MongoDb.Connect("localhost");
+      var id = ObjectId.GenerateNewId().ToString();
+      var item = new Item {
+        Id = ObjectId.Parse(id),
+        Attributes = new List<Attribute>
+        {
+          new Attribute
+          {
+            Name = "EditTest",
+            Value = "true",
+            Type = AttributeType.String
+          }
+        }
+      };
+
+      //Act
+      MongoDb.Save(item);
+      MongoDb.Edit(item.Id.ToString(), "EditTest", "false");
+      MongoDb.Edit(item.Id.ToString(), "EditTest", AttributeType.Bool);
+
+      //Assert
+      var res = MongoDb.Load(id);
+      res.Should().NotBeNull();
+      res.Attributes.FirstOrDefault(x => x.Name == "EditTest")?.Value.Should().Be("false", "Value should be updated");
+      res.Attributes.FirstOrDefault(x => x.Name == "EditTest")?.Type.Should().Be(AttributeType.Bool, "Type should be updated");
+
+      //MongoDb.Delete(id);
     }
   }
 }
