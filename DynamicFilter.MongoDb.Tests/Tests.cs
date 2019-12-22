@@ -160,7 +160,7 @@ namespace DynamicFilter.MongoDb.Tests {
       res.Attributes.FirstOrDefault(x => x.Name == "EditTest")?.Value.Should().Be("false", "Value should be updated");
       res.Attributes.FirstOrDefault(x => x.Name == "EditTest")?.Type.Should().Be(AttributeType.Bool, "Type should be updated");
 
-      //MongoDb.Delete(id);
+      MongoDb.Delete(id);
     }
   }
 }

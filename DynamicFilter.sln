@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamicFilter.Domain", "Dyn
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamicFilter.MongoDb", "DynamicFilter.MongoDb\DynamicFilter.MongoDb.csproj", "{EFE646C4-FC58-49EC-9DD7-343B4B9B007F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicFilter.MongoDb.Tests", "DynamicFilter.MongoDb.Tests\DynamicFilter.MongoDb.Tests.csproj", "{1166AE1C-E67A-4071-9EC1-A2093F246442}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamicFilter.MongoDb.Tests", "DynamicFilter.MongoDb.Tests\DynamicFilter.MongoDb.Tests.csproj", "{1166AE1C-E67A-4071-9EC1-A2093F246442}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicFilter.Domain.Core.Tests", "DynamicFilter.Domain.Core.Tests\DynamicFilter.Domain.Core.Tests.csproj", "{6F3E9D2B-145C-47B6-9B72-0D118C3D31F1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{1166AE1C-E67A-4071-9EC1-A2093F246442}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1166AE1C-E67A-4071-9EC1-A2093F246442}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1166AE1C-E67A-4071-9EC1-A2093F246442}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F3E9D2B-145C-47B6-9B72-0D118C3D31F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F3E9D2B-145C-47B6-9B72-0D118C3D31F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F3E9D2B-145C-47B6-9B72-0D118C3D31F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F3E9D2B-145C-47B6-9B72-0D118C3D31F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
