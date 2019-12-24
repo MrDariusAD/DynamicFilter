@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DynamicFilter.Domain.Core;
+using DynamicFilter.Domain.Core.Models;
 using DynamicFilter.Domain.Services;
 using FluentAssertions;
 using MongoDB.Bson;
@@ -14,22 +15,18 @@ namespace DynamicFilter.Domain.Tests {
             MongoDb.MongoDb.Connect("localhost");
             var item1 = new Item {
                 Id = ObjectId.GenerateNewId(),
-                Attributes = new List<Attribute>
-                {
-                    new Attribute
-                    {
+                Attributes = new List<Attribute> {
+                    new Attribute {
                         Name = "Usability",
                         Value = "1",
                         Type = AttributeType.Int
                     },
-                    new Attribute
-                    {
+                    new Attribute {
                         Name = "Price",
                         Value = "1",
                         Type = AttributeType.Int
                     },
-                    new Attribute
-                    {
+                    new Attribute {
                         Name = "Scalable",
                         Value = "false",
                         Type = AttributeType.Bool
@@ -38,22 +35,18 @@ namespace DynamicFilter.Domain.Tests {
             };
             var item2 = new Item {
                 Id = ObjectId.GenerateNewId(),
-                Attributes = new List<Attribute>
-                {
-                    new Attribute
-                    {
+                Attributes = new List<Attribute> {
+                    new Attribute {
                         Name = "Usability",
                         Value = "2",
                         Type = AttributeType.Int
                     },
-                    new Attribute
-                    {
+                    new Attribute {
                         Name = "Price",
                         Value = "2",
                         Type = AttributeType.Int
                     },
-                    new Attribute
-                    {
+                    new Attribute {
                         Name = "Scalable",
                         Value = "false",
                         Type = AttributeType.Bool
@@ -62,16 +55,13 @@ namespace DynamicFilter.Domain.Tests {
             };
             var item3 = new Item {
                 Id = ObjectId.GenerateNewId(),
-                Attributes = new List<Attribute>
-                {
-                    new Attribute
-                    {
+                Attributes = new List<Attribute> {
+                    new Attribute {
                         Name = "Usability",
                         Value = "2",
                         Type = AttributeType.Int
                     },
-                    new Attribute
-                    {
+                    new Attribute {
                         Name = "Price",
                         Value = "7",
                         Type = AttributeType.Int
@@ -80,22 +70,18 @@ namespace DynamicFilter.Domain.Tests {
             };
             var item4 = new Item {
                 Id = ObjectId.GenerateNewId(),
-                Attributes = new List<Attribute>
-                {
-                    new Attribute
-                    {
+                Attributes = new List<Attribute> {
+                    new Attribute {
                         Name = "Usability",
                         Value = "2",
                         Type = AttributeType.Int
                     },
-                    new Attribute
-                    {
+                    new Attribute {
                         Name = "Price",
                         Value = "2",
                         Type = AttributeType.Int
                     },
-                    new Attribute
-                    {
+                    new Attribute {
                         Name = "Scalable",
                         Value = "true",
                         Type = AttributeType.Bool
@@ -103,24 +89,19 @@ namespace DynamicFilter.Domain.Tests {
                 }
             };
 
-            var reportModel = new AssistantRequestReportModel
-            {
-                PreferenceAttributes = new List<Attribute>
-                {
-                    new Attribute
-                    {
+            var reportModel = new AssistantRequestReportModel {
+                PreferenceAttributes = new List<Attribute> {
+                    new Attribute {
                         Name = "Usability",
                         Value = "2",
                         Type = AttributeType.Int
                     },
-                    new Attribute
-                    {
+                    new Attribute {
                         Name = "Price",
                         Value = "2",
                         Type = AttributeType.Int
                     },
-                    new Attribute
-                    {
+                    new Attribute {
                         Name = "Scalable",
                         Value = "true",
                         Type = AttributeType.Bool
@@ -129,8 +110,7 @@ namespace DynamicFilter.Domain.Tests {
             };
 
             //Act
-            var res = AssistantService.CalculateOptimalItems(reportModel, new List<Item>()
-            {
+            var res = AssistantService.CalculateOptimalItems(reportModel, new List<Item> {
                 item1,
                 item2,
                 item3,
@@ -144,13 +124,13 @@ namespace DynamicFilter.Domain.Tests {
             first.RateInPercent.Should().Be(1);
             var second = res.ElementAt(1);
             second.Item.Id.Should().BeEquivalentTo(item2.Id);
-            second.RateInPercent.Should().Be((float)2 / 3);
+            second.RateInPercent.Should().Be((float) 2 / 3);
             var third = res.ElementAt(2);
             third.Item.Id.Should().BeEquivalentTo(item3.Id);
-            third.RateInPercent.Should().Be((float)1 / 3);
+            third.RateInPercent.Should().Be((float) 1 / 3);
             var fourth = res.ElementAt(3);
             fourth.Item.Id.Should().BeEquivalentTo(item1.Id);
-            fourth.RateInPercent.Should().Be((float)0 / 3);
+            fourth.RateInPercent.Should().Be((float) 0 / 3);
         }
     }
 }

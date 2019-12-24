@@ -1,19 +1,16 @@
 ﻿using System;
 using DynamicFilter.Domain.Core;
-using Microsoft.AspNetCore.Mvc;
 using DynamicFilter.Domain.Services;
+using Microsoft.AspNetCore.Mvc;
 
-namespace DynamicFilter.WebApi.Controllers
-{
+namespace DynamicFilter.WebApi.Controllers {
     [Route("api/[controller]")]
     [ApiController]
-    public class AssistantController : ControllerBase
-    {
+    public class AssistantController : ControllerBase {
         [HttpGet]
         [Route("CalculateOptimalItems")]
         public IActionResult CalculateOptimalItem(AssistantRequestReportModel reportModel) {
-            try
-            {
+            try {
                 MongoDb.MongoDb.Connect("localhost");
                 return Ok(AssistantService.CalculateOptimalItems(reportModel, MongoDb.MongoDb.Load()));
             }

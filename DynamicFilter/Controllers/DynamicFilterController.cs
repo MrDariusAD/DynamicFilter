@@ -1,29 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using DynamicFilter.Domain.Core;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using static DynamicFilter.MongoDb.MongoDb;
 
-namespace DynamicFilter.WebApi.Controllers
-{
+namespace DynamicFilter.WebApi.Controllers {
     [Route("api/[controller]")]
     [ApiController]
-    public class DynamicFilterController : ControllerBase
-    {
+    public class DynamicFilterController : ControllerBase {
         [HttpGet]
         [Route("LoadAllItems")]
-        public IActionResult LoadAllItems()
-        {
-            try
-            {
+        public IActionResult LoadAllItems() {
+            try {
                 Connect("localhost");
                 return Ok(Load());
             }
-            catch (Exception e)
-            {
+            catch (Exception e) {
                 return StatusCode(500, e);
             }
         }
@@ -51,6 +42,7 @@ namespace DynamicFilter.WebApi.Controllers
                 return StatusCode(500, e);
             }
         }
+
         [HttpGet]
         [Route("SaveItem")]
         public IActionResult SaveItem(Item toSave) {
