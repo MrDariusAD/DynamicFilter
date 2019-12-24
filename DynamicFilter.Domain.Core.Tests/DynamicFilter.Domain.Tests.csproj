@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DynamicFilter.Domain\DynamicFilter.Domain.csproj" />
     <ProjectReference Include="..\DynamicFilter.MongoDb\DynamicFilter.MongoDb.csproj" />
   </ItemGroup>
 

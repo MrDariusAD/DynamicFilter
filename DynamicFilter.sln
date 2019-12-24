@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamicFilter.MongoDb", "Dy
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamicFilter.MongoDb.Tests", "DynamicFilter.MongoDb.Tests\DynamicFilter.MongoDb.Tests.csproj", "{1166AE1C-E67A-4071-9EC1-A2093F246442}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicFilter.Domain.Core.Tests", "DynamicFilter.Domain.Core.Tests\DynamicFilter.Domain.Core.Tests.csproj", "{6F3E9D2B-145C-47B6-9B72-0D118C3D31F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamicFilter.Domain.Tests", "DynamicFilter.Domain.Core.Tests\DynamicFilter.Domain.Tests.csproj", "{6F3E9D2B-145C-47B6-9B72-0D118C3D31F1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

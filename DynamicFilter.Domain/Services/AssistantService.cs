@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using DynamicFilter.Domain.Core;
 
-namespace DynamicFilter.Domain.Core.Services
+namespace DynamicFilter.Domain.Services
 {
     public class AssistantService
     {
-        public static List<AssistantResultReportModel> CalculateOptimalItem(AssistantRequestReportModel reportModel, List<Item> items)
+        public static List<AssistantResultReportModel> CalculateOptimalItems(AssistantRequestReportModel reportModel, List<Item> items)
         {
             var result = new List<AssistantResultReportModel>();
             foreach (var item in items)

@@ -17,6 +17,7 @@ namespace DynamicFilter.MongoDb {
     #region Infrastructure
     public static void Connect(string connectionUrl)
     {
+      if (_isConnected) return;
       _client = new MongoClient(new MongoClientSettings
       {
         Server = new MongoServerAddress(connectionUrl)
@@ -27,20 +28,18 @@ namespace DynamicFilter.MongoDb {
     private static void OpenDatabase(string databaseName)
     {
       if (!_isConnected) return;
-      if (_lastDatabase != databaseName)
-      {
-        _database = _client.GetDatabase(databaseName);
-      }
+      if (_lastDatabase == databaseName) return;
+      _database = _client.GetDatabase(databaseName);
+      _lastDatabase = databaseName;
     }
 
     private static void OpenCollection(string collectionName)
     {
       if (!_isConnected) return;
       OpenDatabase("DynamicFilter");
-      if (_lastCollection != collectionName)
-      {
-        _collection = _database.GetCollection<Item>(collectionName);
-      }
+      if (_lastCollection == collectionName) return;
+      _collection = _database.GetCollection<Item>(collectionName);
+      _lastCollection = collectionName;
     }
 
     public static FilterDefinition<Item> GetIdFilterDefinition(string id)

@@ -1,19 +1,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using DynamicFilter.Domain.Core;
-using DynamicFilter.Domain.Core.Services;
+using DynamicFilter.Domain.Services;
 using FluentAssertions;
 using MongoDB.Bson;
-using static DynamicFilter.MongoDb.MongoDb;
 using Xunit;
-    
 
-namespace DynamicFilter.Domain.Core.Tests {
+namespace DynamicFilter.Domain.Tests {
     public class AssistantServiceTests {
         [Fact]
         public void CalculateOptimalItem_MethodIsCalledWithTheUserPreferences() {
             //Arrange
-            Connect("localhost");
+            MongoDb.MongoDb.Connect("localhost");
             var item1 = new Item {
                 Id = ObjectId.GenerateNewId(),
                 Attributes = new List<Attribute>
@@ -131,7 +129,7 @@ namespace DynamicFilter.Domain.Core.Tests {
             };
 
             //Act
-            var res = AssistantService.CalculateOptimalItem(reportModel, new List<Item>()
+            var res = AssistantService.CalculateOptimalItems(reportModel, new List<Item>()
             {
                 item1,
                 item2,
