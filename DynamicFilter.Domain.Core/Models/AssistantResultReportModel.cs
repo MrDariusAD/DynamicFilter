@@ -1,7 +1,5 @@
-﻿namespace DynamicFilter.Domain.Core
-{
-    public class AssistantResultReportModel
-    {
+﻿namespace DynamicFilter.Domain.Core.Models {
+    public class AssistantResultReportModel {
         public Item Item { get; set; }
         public float RateInPercent { get; set; }
     }

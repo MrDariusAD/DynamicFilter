@@ -1,7 +1,5 @@
-﻿namespace DynamicFilter.Domain.Core
-{
-    public enum AttributeType
-    {
+﻿namespace DynamicFilter.Domain.Core.Models {
+    public enum AttributeType {
         String,
         Int,
         Bool

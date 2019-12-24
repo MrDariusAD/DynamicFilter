@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
+using DynamicFilter.Domain.Core.Models;
 using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
 
-namespace DynamicFilter.Domain.Core
-{
-  public class Item
-  {
-    public ObjectId Id { get; set; }
-    public List<Attribute> Attributes { get; set; }
-  }
+namespace DynamicFilter.Domain.Core {
+    public class Item {
+        public ObjectId Id { get; set; }
+        public List<Attribute> Attributes { get; set; }
+    }
 }
