@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using DynamicFilter.Domain.Core;
 using DynamicFilter.Domain.Core.Models;
 using FluentAssertions;
 using MongoDB.Bson;
