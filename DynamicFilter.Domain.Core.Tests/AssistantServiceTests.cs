@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using DynamicFilter.Domain.Core;
 using DynamicFilter.Domain.Core.Models;
 using DynamicFilter.Domain.Services;
 using FluentAssertions;
@@ -10,7 +9,7 @@ using Xunit;
 namespace DynamicFilter.Domain.Tests {
     public class AssistantServiceTests {
         [Fact]
-        public void CalculateOptimalItem_MethodIsCalledWithTheUserPreferences() {
+        public void CalculateOptimalItem_MethodIsCalledWithTheUserPreferences_AssistantReturnsAListOrderedByHitRate() {
             //Arrange
             MongoDb.MongoDb.Connect("localhost");
             var item1 = new Item {
@@ -120,17 +119,17 @@ namespace DynamicFilter.Domain.Tests {
             //Assert
             var first = res.FirstOrDefault();
             first.Should().NotBeNull();
-            first.Item.Id.Should().BeEquivalentTo(item4.Id);
-            first.RateInPercent.Should().Be(1);
+            first?.Item.Id.Should().BeEquivalentTo(item4.Id);
+            first?.RateInPercent.Should().Be(100);
             var second = res.ElementAt(1);
             second.Item.Id.Should().BeEquivalentTo(item2.Id);
-            second.RateInPercent.Should().Be((float) 2 / 3);
+            second.RateInPercent.Should().Be((decimal)66.67);
             var third = res.ElementAt(2);
             third.Item.Id.Should().BeEquivalentTo(item3.Id);
-            third.RateInPercent.Should().Be((float) 1 / 3);
+            third.RateInPercent.Should().Be((decimal)33.33);
             var fourth = res.ElementAt(3);
             fourth.Item.Id.Should().BeEquivalentTo(item1.Id);
-            fourth.RateInPercent.Should().Be((float) 0 / 3);
+            fourth.RateInPercent.Should().Be(0);
         }
     }
 }

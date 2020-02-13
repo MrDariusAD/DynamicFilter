@@ -1,5 +1,5 @@
 ﻿using System;
-using DynamicFilter.Domain.Core;
+using DynamicFilter.Domain.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 using static DynamicFilter.MongoDb.MongoDb;
 
