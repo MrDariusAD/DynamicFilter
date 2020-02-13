@@ -1,16 +1,20 @@
 <mat-sidenav-container>
-    <mat-sidenav mode="side" opened>
-        <app-sidenav-item [type]="'button'" [iconName]="'dashboard'">Dashboard</app-sidenav-item>
+    <mat-sidenav #sidenav mode="side" opened [fixedInViewport]="true">
+        <div class="sidenav-header">DynamicFilter</div>
+        <mat-divider></mat-divider>
+        <app-sidenav-item [type]="'button'" [iconName]="'view_list'" (clicked)="sidenav.close()"> Items list
+        </app-sidenav-item>
+        <app-sidenav-item [type]="'button'" [iconName]="'assistant'" (clicked)="sidenav.close()"> Assistant
+        </app-sidenav-item>
     </mat-sidenav>
     <mat-sidenav-content>
         <mat-toolbar class="KMPNavbar">
-            <mat-toolbar-row style="text-align: center; color: #9e1981; display: inline-block; margin: auto; background-color: white">
+            <mat-toolbar-row>
                 <button class="navbarButton navbarVerticalCenter navbarPullLeft" mat-icon-button (click)="sidenav.toggle()">
-          <mat-icon class="navbarIcon">menu</mat-icon>
-        </button>
-                <div class="navbarVerticalCenter navbarHorizontalCenter"><b>DynamicFilter</b></div>
+                    <mat-icon class="navbarIcon">menu</mat-icon>
+                </button>
             </mat-toolbar-row>
         </mat-toolbar>
-        <ng-content style="color: #495057"></ng-content>
+        <ng-content></ng-content>
     </mat-sidenav-content>
 </mat-sidenav-container>

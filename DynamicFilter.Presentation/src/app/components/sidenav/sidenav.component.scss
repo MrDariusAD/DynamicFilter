@@ -2,11 +2,10 @@
     // This fills the remaining space, by using flexbox.
     // Every toolbar row uses a flexbox row layout.
     flex: 1 1 auto;
-  }
-
+}
 
 button {
-    outline:none;
+    outline: none;
 }
 
 mat-sidenav {
@@ -16,7 +15,7 @@ mat-sidenav {
     font-family: 'Roboto', sans-serif !important;
 }
 
-.sidenavButton {    
+.sidenavButton {
     /* transform: scale(1.3); */
     text-align: left;
     background-color: white;
@@ -34,16 +33,16 @@ mat-sidenav {
 }
 
 .navbarButton {
-    transform:scale(1.3);
+    transform: scale(1.3);
     color: #9e1981;
 }
 
 .sidenavButtonActive {
-    background-color:  #9e19815e !important;
+    background-color: #9e19815e !important;
 }
 
 .navbarIcon {
-    transform:scale(1.3);
+    transform: scale(1.3);
     color: #9e1981;
 }
 
@@ -62,12 +61,19 @@ mat-sidenav {
 }
 
 .navbarPullLeft {
-    position: absolute; 
-    left:0%; 
+    position: absolute;
+    left: 0%;
     margin: auto 10px;
 }
 
 .navbarHorizontalCenter {
     text-align: center;
     display: inline-block;
+}
+
+.sidenav-header {
+    font-size: 20pt;
+    text-align: center;
+    margin: 15px 0;
+    color: #9e1981;
 }
