@@ -1,5 +1,6 @@
 ﻿using System;
 using DynamicFilter.Domain.Core;
+using DynamicFilter.Domain.Core.Models;
 using DynamicFilter.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 

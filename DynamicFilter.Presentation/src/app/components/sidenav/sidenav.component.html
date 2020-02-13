@@ -1,0 +1,16 @@
+<mat-sidenav-container>
+    <mat-sidenav mode="side" opened>
+        <app-sidenav-item [type]="'button'" [iconName]="'dashboard'">Dashboard</app-sidenav-item>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <mat-toolbar class="KMPNavbar">
+            <mat-toolbar-row style="text-align: center; color: #9e1981; display: inline-block; margin: auto; background-color: white">
+                <button class="navbarButton navbarVerticalCenter navbarPullLeft" mat-icon-button (click)="sidenav.toggle()">
+          <mat-icon class="navbarIcon">menu</mat-icon>
+        </button>
+                <div class="navbarVerticalCenter navbarHorizontalCenter"><b>DynamicFilter</b></div>
+            </mat-toolbar-row>
+        </mat-toolbar>
+        <ng-content style="color: #495057"></ng-content>
+    </mat-sidenav-content>
+</mat-sidenav-container>
