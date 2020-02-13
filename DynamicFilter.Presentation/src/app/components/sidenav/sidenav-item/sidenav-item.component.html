@@ -1,3 +1,4 @@
-<button *ngIf="type == 'button'" mat-raised-button class="sidenavButton" (mouseup)="itemClicked()">
-  <mat-icon *ngIf="iconName">{{iconName}}</mat-icon><ng-content></ng-content>
+<button mat-raised-button class="sidenavButton" (mouseup)="itemClicked()">
+  <mat-icon *ngIf="iconName">{{iconName}}</mat-icon>
+  <ng-content></ng-content>
 </button>
