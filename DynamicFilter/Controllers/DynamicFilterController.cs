@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Linq;
 using DynamicFilter.Domain.Core.Models;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using static DynamicFilter.MongoDb.MongoDb;
 
 namespace DynamicFilter.WebApi.Controllers {
-    [Route("api/[controller]")]
+    [Route("api/DynamicFilter")]
     [ApiController]
     public class DynamicFilterController : ControllerBase {
         [HttpGet]
@@ -12,7 +14,7 @@ namespace DynamicFilter.WebApi.Controllers {
         public IActionResult LoadAllItems() {
             try {
                 Connect("localhost");
-                return Ok(Load());
+                return Ok(Load().Select(x=> x.ToReportModel()));
             }
             catch (Exception e) {
                 return StatusCode(500, e);
@@ -24,7 +26,7 @@ namespace DynamicFilter.WebApi.Controllers {
         public IActionResult LoadItem(string id) {
             try {
                 Connect("localhost");
-                return Ok(Load(id));
+                return Ok(Load(id).ToReportModel());
             }
             catch (Exception e) {
                 return StatusCode(500, e);
@@ -36,7 +38,7 @@ namespace DynamicFilter.WebApi.Controllers {
         public IActionResult LoadWithFilter(Item filterItem) {
             try {
                 Connect("localhost");
-                return Ok(Load(filterItem));
+                return Ok(Load(filterItem).Select(x => x.ToReportModel()));
             }
             catch (Exception e) {
                 return StatusCode(500, e);

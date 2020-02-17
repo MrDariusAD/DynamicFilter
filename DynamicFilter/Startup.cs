@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Cors;
 
 namespace DynamicFilter.WebApi {
     public class Startup {
@@ -14,6 +15,12 @@ namespace DynamicFilter.WebApi {
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
+            services.AddCors(options => {
+                options.AddPolicy("corsPolicy",
+                    builder => {
+                        builder.AllowAnyOrigin().Build();
+                    });
+            });
             services.AddControllers();
         }
 
@@ -25,9 +32,13 @@ namespace DynamicFilter.WebApi {
 
             app.UseRouting();
 
+            app.UseCors("corsPolicy");
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+
+
         }
     }
 }
