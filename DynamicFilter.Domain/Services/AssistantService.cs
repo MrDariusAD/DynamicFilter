@@ -16,10 +16,10 @@ namespace DynamicFilter.Domain.Services {
                     if (item.Attributes.Select(attr => attr.Name).Contains(preferenceAttribute.Name) &&
                         item.Attributes.FirstOrDefault(x => x.Name == preferenceAttribute.Name)?.Value ==
                         preferenceAttribute.Value) {
-                        percent += (decimal)1 / reportModel.PreferenceAttributes.Count * 100;
+                        percent += preferenceAttribute.Weight / reportModel.PreferenceAttributes.Sum(x=> x.Weight) * 100;
                     }
                 }
-                result.Add(new AssistantResultReportModel { Item = item, RateInPercent = Math.Round(percent,2) });
+                result.Add(new AssistantResultReportModel { Item = item, RateInPercent = Math.Round(percent, 2) });
             }
             return result.OrderByDescending(x => x.RateInPercent).ToList();
         }

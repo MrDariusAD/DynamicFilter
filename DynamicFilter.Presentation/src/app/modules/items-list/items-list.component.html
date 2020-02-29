@@ -1,5 +1,6 @@
 <div class="sidenav-margin">
+    <app-filtered-search (searchExecuted)="processSearchExecuted($event)"></app-filtered-search>
     <ng-container *ngFor="let item of items">
-        <app-card>{{item | json}}</app-card>
+        <app-item-card [item]="item"></app-item-card>
     </ng-container>
 </div>

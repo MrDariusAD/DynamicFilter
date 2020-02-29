@@ -5,6 +5,7 @@ using MongoDB.Bson;
 namespace DynamicFilter.Domain.Core.Models {
     public class ItemReportModel {
         public string Id { get; set; }
+        public string Name { get; set; }
         public List<Attribute> Attributes { get; set; }
     }
 }

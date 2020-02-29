@@ -1,8 +1,7 @@
 import { AttributeType } from './AttributeType.enum';
 
-export interface Attribute {
+export interface SearchAttributeModel {
     name: string;
-    value: string;
     type: AttributeType;
-    weight?: number;
+    values: string[];
 }

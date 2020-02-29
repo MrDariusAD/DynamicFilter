@@ -1,6 +1,7 @@
-import { Attribute } from '@angular/core';
+import { Attribute } from './Attribute';
 
 export interface Item {
-    Id: string;
-    Attributes: Attribute[];
+    id: string;
+    name: string;
+    attributes: Attribute[];
 }

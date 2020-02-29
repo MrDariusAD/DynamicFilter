@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using DynamicFilter.Domain.Comparer;
 using DynamicFilter.Domain.Core.Models;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using static DynamicFilter.MongoDb.MongoDb;
+using Attribute = DynamicFilter.Domain.Core.Models.Attribute;
 
 namespace DynamicFilter.WebApi.Controllers {
     [Route("api/DynamicFilter")]
@@ -33,10 +36,10 @@ namespace DynamicFilter.WebApi.Controllers {
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("LoadWithFilter")]
         public IActionResult LoadWithFilter(Item filterItem) {
-            try {
+            try{
                 Connect("localhost");
                 return Ok(Load(filterItem).Select(x => x.ToReportModel()));
             }
@@ -47,11 +50,34 @@ namespace DynamicFilter.WebApi.Controllers {
 
         [HttpGet]
         [Route("SaveItem")]
-        public IActionResult SaveItem(Item toSave) {
+        public IActionResult SaveItem([FromBody] Item toSave) {
             try {
                 Connect("localhost");
                 Save(toSave);
                 return Ok();
+            }
+            catch (Exception e) {
+                return StatusCode(500, e);
+            }
+        }
+
+        [HttpGet]
+        [Route("GetAllPresentAttributes")]
+        public IActionResult GetAllPresentAttributes() {
+            try {
+                Connect("localhost");
+                var allItems = Load();
+                var comparer = new AttributeComparer();
+                var attributes = allItems.SelectMany(x => x.Attributes) as Attribute[] ?? allItems.SelectMany(x => x.Attributes).ToArray();
+                var distinct = attributes.Distinct(comparer);
+
+                var response = distinct.Select(attribute => new SearchAttributeModel {
+                    Name = attribute.Name, 
+                    Type = attribute.Type, 
+                    Values = attributes.Where(x => x.Name == attribute.Name && x.Type == attribute.Type).Select(x => x.Value).ToArray()
+                }).ToList();
+
+                return Ok(response.OrderBy(x=> x.Type));
             }
             catch (Exception e) {
                 return StatusCode(500, e);

@@ -1,0 +1,5 @@
+<app-card *ngIf="item" [title]="item.name">
+    <div *ngFor="let attribute of item.attributes">
+        <strong>{{attribute.name}}</strong>: {{attribute.value}}
+    </div>
+</app-card>

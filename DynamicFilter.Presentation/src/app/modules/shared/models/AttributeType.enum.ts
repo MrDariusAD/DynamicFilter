@@ -1,5 +1,5 @@
 export enum AttributeType {
-    String,
-    Int,
-    Bool
+    string,
+    int,
+    bool
 }

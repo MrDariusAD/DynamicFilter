@@ -18,7 +18,7 @@ namespace DynamicFilter.WebApi {
             services.AddCors(options => {
                 options.AddPolicy("corsPolicy",
                     builder => {
-                        builder.AllowAnyOrigin().Build();
+                        builder.AllowAnyOrigin().AllowAnyHeader().Build();
                     });
             });
             services.AddControllers();

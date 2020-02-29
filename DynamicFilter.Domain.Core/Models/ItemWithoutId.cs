@@ -4,9 +4,7 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace DynamicFilter.Domain.Core.Models {
-    public class Item {
-        [BsonIgnoreIfDefault]
-        public ObjectId Id { get; set; }
+    public class ItemWithoutId {
         [BsonIgnoreIfNull]
         public string Name { get; set; }
         [BsonIgnoreIfDefault]
@@ -15,15 +13,7 @@ namespace DynamicFilter.Domain.Core.Models {
         public ItemReportModel ToReportModel() {
             return new ItemReportModel {
                 Name = Name,
-                Attributes = Attributes,
-                Id = Id.ToString()
-            };
-        }
-
-        public ItemWithoutId ToItemWithoutId() {
-            return new ItemWithoutId {
-                Attributes = Attributes,
-                Name = Name
+                Attributes = Attributes
             };
         }
     }

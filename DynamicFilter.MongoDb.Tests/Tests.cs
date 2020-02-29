@@ -14,6 +14,7 @@ namespace DynamicFilter.MongoDb.Tests {
             var id = ObjectId.GenerateNewId().ToString();
             var item = new Item {
                 Id = ObjectId.Parse(id),
+                Name = "TestItem",
                 Attributes = new List<Attribute> {
                     new Attribute {
                         Name = "EditTest",
@@ -38,6 +39,35 @@ namespace DynamicFilter.MongoDb.Tests {
 
             MongoDb.Delete(id);
         }
+        
+        [Fact]
+        public void Edit_EditTheNameOfAnItem_NameIsEdited() {
+            //Arrange
+            MongoDb.Connect("localhost");
+            var id = ObjectId.GenerateNewId().ToString();
+            var item = new Item {
+                Id = ObjectId.Parse(id),
+                Name = "TestItem",
+                Attributes = new List<Attribute> {
+                    new Attribute {
+                        Name = "EditTest",
+                        Value = "true",
+                        Type = AttributeType.String
+                    }
+                }
+            };
+
+            //Act
+            MongoDb.Save(item);
+            MongoDb.Edit(item.Id.ToString(), "editedname");
+
+            //Assert
+            var res = MongoDb.Load(id);
+            res.Should().NotBeNull();
+            res.Name.Should().Be("editedname");
+
+            MongoDb.Delete(id);
+        }
 
         [Fact]
         public void Load_SaveAnExampleItemIntoTheDatabase_ExampleFileIsSavedAndCanBeLoaded() {
@@ -46,6 +76,7 @@ namespace DynamicFilter.MongoDb.Tests {
             var id = ObjectId.GenerateNewId().ToString();
             var item = new Item {
                 Id = ObjectId.Parse(id),
+                Name = "TestItem",
                 Attributes = new List<Attribute> {
                     new Attribute {
                         Name = "Test",
@@ -61,6 +92,63 @@ namespace DynamicFilter.MongoDb.Tests {
             //Assert
             var res = MongoDb.Load(item);
             res.Should().NotBeNull();
+            res.Should().ContainEquivalentOf(item);
+
+            MongoDb.Delete(id);
+        }
+
+
+        [Fact]
+        public void LoadWithFilter_SaveAnExampleItemIntoTheDatabase_ItemGetsLoaded() {
+            //Arrange
+            MongoDb.Connect("localhost");
+            var id = ObjectId.GenerateNewId().ToString();
+            var item = new Item {
+                Id = ObjectId.Parse(id),
+                Name = "TestItem",
+                Attributes = new List<Attribute> {
+                    new Attribute {
+                        Name = "Test",
+                        Value = "true",
+                        Type = AttributeType.String
+                    },
+                    new Attribute {
+                        Name = "Test2",
+                        Value = "33",
+                        Type = AttributeType.Int
+                    },
+                    new Attribute {
+                        Name = "Test3",
+                        Value = "asd",
+                        Type = AttributeType.String
+                    },
+                    new Attribute {
+                        Name = "Test4",
+                        Value = "12",
+                        Type = AttributeType.Int
+                    }
+                }
+            };
+
+            var filterItem = new Item {
+                Id = ObjectId.Empty,
+                Attributes = new List<Attribute> {
+                    new Attribute {
+                        Name = "Test3",
+                        Value = "asd",
+                        Type = AttributeType.String,
+                        Weight = 0
+                    }
+                }
+            };
+
+            //Act
+            MongoDb.Save(item);
+
+            //Assert
+            var res = MongoDb.Load(filterItem);
+            res.Should().NotBeNull();
+            res.Should().ContainEquivalentOf(item);
 
             MongoDb.Delete(id);
         }
@@ -71,6 +159,7 @@ namespace DynamicFilter.MongoDb.Tests {
             MongoDb.Connect("localhost");
             var item1 = new Item {
                 Id = ObjectId.GenerateNewId(),
+                Name = "TestItem1",
                 Attributes = new List<Attribute> {
                     new Attribute {
                         Name = "Test1",
@@ -81,6 +170,7 @@ namespace DynamicFilter.MongoDb.Tests {
             };
             var item2 = new Item {
                 Id = ObjectId.GenerateNewId(),
+                Name = "TestItem2",
                 Attributes = new List<Attribute> {
                     new Attribute {
                         Name = "Test2",
@@ -91,6 +181,7 @@ namespace DynamicFilter.MongoDb.Tests {
             };
             var item3 = new Item {
                 Id = ObjectId.GenerateNewId(),
+                Name = "TestItem3",
                 Attributes = new List<Attribute> {
                     new Attribute {
                         Name = "Test3",
@@ -101,6 +192,7 @@ namespace DynamicFilter.MongoDb.Tests {
             };
             var item4 = new Item {
                 Id = ObjectId.GenerateNewId(),
+                Name = "TestItem4",
                 Attributes = new List<Attribute> {
                     new Attribute {
                         Name = "Test4",

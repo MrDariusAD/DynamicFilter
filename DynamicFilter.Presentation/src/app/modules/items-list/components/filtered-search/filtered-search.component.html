@@ -1,0 +1,58 @@
+<app-card>
+  <form [formGroup]="filterFormGroup">
+    <div class="filterElement">
+      <mat-form-field [formControl]="this.filterFormGroup.get('name')">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name"/>
+      </mat-form-field>
+    </div>
+    <div class="filterElement" *ngFor="let attribute of attributes">
+      <ng-container [ngSwitch]="attribute.type">
+        <ng-container *ngSwitchCase="0">
+          <mat-form-field
+            [formControl]="this.filterFormGroup.get(attribute.name)"
+          >
+            <mat-label>{{ attribute.name }}</mat-label>
+            <mat-select formControlName="{{ attribute.name }}">
+              <mat-option>Unset</mat-option>
+              <mat-option
+                *ngFor="let value of attribute.values"
+                [value]="value"
+              >
+                {{ value }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
+        <ng-container *ngSwitchCase="1">
+          <mat-form-field>
+            <mat-label>{{ attribute.name }}</mat-label>
+            <mat-select formControlName="{{ attribute.name }}">
+              <mat-option>Unset</mat-option>
+              <mat-option
+                *ngFor="let value of attribute.values"
+                [value]="value"
+              >
+                {{ value }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
+        <ng-container *ngSwitchCase="2">
+          <mat-form-field>
+            <mat-label>{{ attribute.name }}</mat-label>
+            <mat-select formControlName="{{ attribute.name }}">
+              <mat-option>Unset</mat-option>
+              <mat-option
+                *ngFor="let value of attribute.values"
+                [value]="value"
+              >
+                {{ value }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
+      </ng-container>
+    </div>
+  </form>
+</app-card>

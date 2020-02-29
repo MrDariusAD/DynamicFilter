@@ -60,18 +60,17 @@ namespace DynamicFilter.MongoDb {
         public static List<Item> Load(Item filterItem) {
             if (!_isConnected) return null;
             OpenCollection(nameof(Item) + "s");
-            //var filter = Builders<Item>.Filter;
-            //var buildFilter = FilterDefinition<Item>.Empty;
-
-            //foreach (var attribute in filterItem.Attributes)
-            //{
-            //  buildFilter &= filter.ElemMatch(x => x.Attributes, y => y.Name == attribute.Name && y.Value == attribute.Value);
-            //}
-            var filterBson = filterItem.ToBsonDocument();
-            var cursor = _collection.FindSync<Item>(filterBson);
-            var result = new List<Item>();
-
-            while (cursor.MoveNext()) result.AddRange(cursor.Current);
+            var filter = Builders<Item>.Filter;
+            var buildFilter = FilterDefinition<Item>.Empty;
+            if (!string.IsNullOrWhiteSpace(filterItem.Name)) {
+                var regex = new BsonRegularExpression($".*{filterItem.Name}.*", "i");
+                buildFilter &= filter.Regex(x => x.Name, regex);
+            }
+            foreach (var attribute in filterItem.Attributes)
+            {
+              buildFilter &= filter.ElemMatch(x => x.Attributes, y => y.Name == attribute.Name && y.Value == attribute.Value);
+            }
+            var result = _collection.Find(buildFilter).ToList();
             return result;
         }
 
@@ -121,6 +120,16 @@ namespace DynamicFilter.MongoDb {
             var updateDef = Builders<Item>.Update.Set("Attributes.$.Value", newValue);
             return _collection.UpdateOne(
                            GetIdFilterDefinition(id) & Builders<Item>.Filter.Eq("Attributes.Name", fieldName),
+                           updateDef)
+                       .ModifiedCount > 0;
+        }
+        
+        public static bool Edit(string id, string newName) {
+            if (!_isConnected) return false;
+            OpenCollection(nameof(Item) + "s");
+            var updateDef = Builders<Item>.Update.Set("Name", newName);
+            return _collection.UpdateOne(
+                           GetIdFilterDefinition(id),
                            updateDef)
                        .ModifiedCount > 0;
         }

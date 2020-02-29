@@ -8,16 +8,15 @@ import { ApiService } from 'src/app/services/api.service';
   styleUrls: ['./items-list.component.scss']
 })
 export class ItemsListComponent implements OnInit {
+  public items: Item[]; 
 
-
-  public items: Item[];
-
-  constructor(private apiService: ApiService) { }
+  constructor() { }
 
   ngOnInit() {
-    this.apiService.getAllItems().subscribe(response => {
-      this.items = response
-    });
+
   }
 
+  processSearchExecuted(searchResult: Item[]) {
+    this.items = searchResult;
+  }
 }

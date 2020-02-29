@@ -15,6 +15,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamicFilter.MongoDb.Tests
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamicFilter.Domain.Tests", "DynamicFilter.Domain.Core.Tests\DynamicFilter.Domain.Tests.csproj", "{6F3E9D2B-145C-47B6-9B72-0D118C3D31F1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{66CBC4C9-0921-415D-B71A-3431AADEDDBD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ItemImporter", "ItemImporter\ItemImporter.csproj", "{BCBF3A61-D402-41BE-88AC-E472047FCD02}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{5A515207-78BF-4867-93AC-15483728F140}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,9 +51,18 @@ Global
 		{6F3E9D2B-145C-47B6-9B72-0D118C3D31F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F3E9D2B-145C-47B6-9B72-0D118C3D31F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F3E9D2B-145C-47B6-9B72-0D118C3D31F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCBF3A61-D402-41BE-88AC-E472047FCD02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCBF3A61-D402-41BE-88AC-E472047FCD02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCBF3A61-D402-41BE-88AC-E472047FCD02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCBF3A61-D402-41BE-88AC-E472047FCD02}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1166AE1C-E67A-4071-9EC1-A2093F246442} = {5A515207-78BF-4867-93AC-15483728F140}
+		{6F3E9D2B-145C-47B6-9B72-0D118C3D31F1} = {5A515207-78BF-4867-93AC-15483728F140}
+		{BCBF3A61-D402-41BE-88AC-E472047FCD02} = {66CBC4C9-0921-415D-B71A-3431AADEDDBD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {730389F0-10D0-498D-B501-77612C8D7FC3}
