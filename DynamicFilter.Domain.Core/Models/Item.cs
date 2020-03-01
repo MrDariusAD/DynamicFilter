@@ -11,19 +11,14 @@ namespace DynamicFilter.Domain.Core.Models {
         public string Name { get; set; }
         [BsonIgnoreIfDefault]
         public List<Attribute> Attributes { get; set; }
+        public string IconUrl { get; set; }
 
         public ItemReportModel ToReportModel() {
             return new ItemReportModel {
                 Name = Name,
                 Attributes = Attributes,
-                Id = Id.ToString()
-            };
-        }
-
-        public ItemWithoutId ToItemWithoutId() {
-            return new ItemWithoutId {
-                Attributes = Attributes,
-                Name = Name
+                Id = Id.ToString(),
+                IconUrl = IconUrl
             };
         }
     }

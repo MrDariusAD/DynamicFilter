@@ -1,7 +1,7 @@
 <app-card>
   <form [formGroup]="filterFormGroup">
-    <div class="filterElement">
-      <mat-form-field [formControl]="this.filterFormGroup.get('name')">
+    <div class="nameInput">
+      <mat-form-field class="nameInputFormField"[formControl]="this.filterFormGroup.get('name')">
         <mat-label>Name</mat-label>
         <input matInput formControlName="name"/>
       </mat-form-field>
@@ -55,4 +55,16 @@
       </ng-container>
     </div>
   </form>
+    <mat-chip-list #chipList *ngIf="chips.length > 0">
+      <mat-chip *ngFor="let chip of chips" [selectable]="selectable"
+               [removable]="removable" (removed)="removeChip(chip)">
+        {{chip.value}}
+        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+      </mat-chip>
+      <!-- <input placeholder="New fruit..."
+             [matChipInputFor]="chipList"
+             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+             [matChipInputAddOnBlur]="addOnBlur"
+             (matChipInputTokenEnd)="add($event)"> -->
+    </mat-chip-list>
 </app-card>

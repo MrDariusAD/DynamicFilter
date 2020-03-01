@@ -11,6 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ItemsListModule } from './modules/items-list/items-list.module';
 import { SharedModule } from './modules/shared/shared.module';
 import { SidenavModule } from './modules/sidenav/sidenav.module';
+import { AssistantModule } from './modules/assistant/assistant.module';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { SidenavModule } from './modules/sidenav/sidenav.module';
     HttpClientModule,
     ItemsListModule,
     SharedModule,
-    SidenavModule
+    SidenavModule,
+    AssistantModule
   ],
   providers: [
     ApiService

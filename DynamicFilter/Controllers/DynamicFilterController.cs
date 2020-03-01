@@ -77,7 +77,7 @@ namespace DynamicFilter.WebApi.Controllers {
                     Values = attributes.Where(x => x.Name == attribute.Name && x.Type == attribute.Type).Select(x => x.Value).ToArray()
                 }).ToList();
 
-                return Ok(response.OrderBy(x=> x.Type));
+                return Ok(response.OrderBy(x=> x.Name));
             }
             catch (Exception e) {
                 return StatusCode(500, e);

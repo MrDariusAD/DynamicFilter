@@ -1,4 +1,4 @@
-<app-card *ngIf="item" [title]="item.name">
+<app-card *ngIf="item" [title]="item.name" [iconUrl]="item.iconUrl">
     <div *ngFor="let attribute of item.attributes">
         <strong>{{attribute.name}}</strong>: {{attribute.value}}
     </div>

@@ -6,6 +6,7 @@ import {
   OnDestroy,
   AfterViewInit
 } from "@angular/core";
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { Item } from "src/app/modules/shared/models/Item";
 import { ApiService } from "src/app/services/api.service";
 import { Subject } from "rxjs";
@@ -13,6 +14,7 @@ import { SearchAttributeModel } from "src/app/modules/shared/models/SearchAttrib
 import { FormBuilder, FormGroup, FormControl } from "@angular/forms";
 import { AttributeType } from "src/app/modules/shared/models/AttributeType.enum";
 import { Attribute } from "src/app/modules/shared/models/Attribute";
+import { FilterChip } from 'src/app/modules/shared/models/FilterChip';
 
 @Component({
   selector: "app-filtered-search",
@@ -28,8 +30,15 @@ export class FilteredSearchComponent
   public filterItem: Item = {
     id: "",
     name: "",
-    attributes: []
+    attributes: [],
+    iconUrl: ""
   };
+  public visible = true;
+  public selectable = true;
+  public removable = true;
+  public addOnBlur = true;
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  public chips: FilterChip[] = [];
 
   public unsubscribe = new Subject();
 
@@ -64,11 +73,18 @@ export class FilteredSearchComponent
   ngAfterViewInit(): void {}
 
   public updateFilterItem(form: any): void {
+    let newChips: FilterChip[] = [];
+
     let formItem = <Item>{
       name: this.filterFormGroup.get("name").value,
       attributes: []
     };
-
+    if(formItem.name && formItem.name != "") {
+      newChips.push(<FilterChip> {
+        controlName: 'name',
+        value: `Name: ${formItem.name}`
+      })
+    }
     for (let [key, control] of Object.entries(this.filterFormGroup.controls)) {
       console.log(key, control.value);
       if (!control || control.value == null) continue;
@@ -96,8 +112,13 @@ export class FilteredSearchComponent
         type: type,
         weight: undefined
       });
+      newChips.push(<FilterChip>{
+        controlName: key,
+        value: `${key}: ${control.value}`
+      });
     }
     this.filterItem = formItem;
+    this.chips = newChips;
   }
 
   setFormArrayFromAttributes() {
@@ -117,6 +138,10 @@ export class FilteredSearchComponent
       this.searchResult = response;
       this.searchExecuted.emit(response);
     });
+  }
+
+  public removeChip(filterChip: FilterChip) {
+    this.filterFormGroup.get(filterChip.controlName).reset();
   }
 
   public ngOnDestroy(): void {

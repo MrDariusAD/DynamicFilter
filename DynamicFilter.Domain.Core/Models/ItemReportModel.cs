@@ -7,5 +7,6 @@ namespace DynamicFilter.Domain.Core.Models {
         public string Id { get; set; }
         public string Name { get; set; }
         public List<Attribute> Attributes { get; set; }
+        public string IconUrl { get; set; }
     }
 }

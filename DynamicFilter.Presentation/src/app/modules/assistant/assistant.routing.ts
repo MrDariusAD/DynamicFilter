@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ItemsListComponent } from './items-list.component';
+import { AssistantComponent } from './assistant.component';
 
 
 const routes: Routes = [
-  {path: 'view', component: ItemsListComponent},
+  {path: 'view', component: AssistantComponent},
   {path: '**', redirectTo: 'view', pathMatch: 'full'}
 ];
 
@@ -12,4 +12,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ItemsListRoutingModule { }
+export class AssistantRoutingModule { }
