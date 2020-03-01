@@ -3,26 +3,35 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ItemsListComponent } from './components/items-list/items-list.component';
-import { SidenavComponent } from './components/sidenav/sidenav.component';
+import { SidenavComponent } from './modules/sidenav/sidenav.component';
 import { FullMaterialModule } from './full-material-module';
-import { SidenavItemComponent } from './components/sidenav/sidenav-item/sidenav-item.component';
+import { SidenavItemComponent } from './modules/sidenav/sidenav-item/sidenav-item.component';
+import { ApiService } from './services/api.service';
+import { HttpClientModule } from '@angular/common/http';
+import { ItemsListModule } from './modules/items-list/items-list.module';
+import { SharedModule } from './modules/shared/shared.module';
+import { SidenavModule } from './modules/sidenav/sidenav.module';
+import { AssistantModule } from './modules/assistant/assistant.module';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    ItemsListComponent,
-    SidenavComponent,
-    SidenavItemComponent
   ],
   imports: [
+    FullMaterialModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    FullMaterialModule
+    HttpClientModule,
+    ItemsListModule,
+    SharedModule,
+    SidenavModule,
+    AssistantModule
   ],
-  providers: [],
+  providers: [
+    ApiService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

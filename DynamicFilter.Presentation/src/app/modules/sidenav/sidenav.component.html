@@ -2,9 +2,9 @@
     <mat-sidenav #sidenav mode="side" opened [fixedInViewport]="true">
         <div class="sidenav-header">DynamicFilter</div>
         <mat-divider></mat-divider>
-        <app-sidenav-item [type]="'button'" [iconName]="'view_list'" (clicked)="sidenav.close()"> Items list
+        <app-sidenav-item [type]="'button'" [iconName]="'view_list'" (clicked)="sidenav.close()" [route]="'items-list'"> Items list
         </app-sidenav-item>
-        <app-sidenav-item [type]="'button'" [iconName]="'assistant'" (clicked)="sidenav.close()"> Assistant
+        <app-sidenav-item [type]="'button'" [iconName]="'assistant'" (clicked)="sidenav.close()" [route]="'assistant'"> Assistant
         </app-sidenav-item>
     </mat-sidenav>
     <mat-sidenav-content>

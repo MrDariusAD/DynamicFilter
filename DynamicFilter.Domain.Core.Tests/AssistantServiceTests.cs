@@ -14,76 +14,91 @@ namespace DynamicFilter.Domain.Tests {
             MongoDb.MongoDb.Connect("localhost");
             var item1 = new Item {
                 Id = ObjectId.GenerateNewId(),
+                Name = "TestItem1",
                 Attributes = new List<Attribute> {
                     new Attribute {
                         Name = "Usability",
                         Value = "1",
-                        Type = AttributeType.Int
+                        Type = AttributeType.Int,
+                        Weight = 1
                     },
                     new Attribute {
                         Name = "Price",
                         Value = "1",
-                        Type = AttributeType.Int
+                        Type = AttributeType.Int,
+                        Weight = 1
                     },
                     new Attribute {
                         Name = "Scalable",
                         Value = "false",
-                        Type = AttributeType.Bool
+                        Type = AttributeType.Bool,
+                        Weight = 1
                     }
                 }
             };
             var item2 = new Item {
                 Id = ObjectId.GenerateNewId(),
+                Name = "TestItem2",
                 Attributes = new List<Attribute> {
                     new Attribute {
                         Name = "Usability",
                         Value = "2",
-                        Type = AttributeType.Int
+                        Type = AttributeType.Int,
+                        Weight = 1
                     },
                     new Attribute {
                         Name = "Price",
                         Value = "2",
-                        Type = AttributeType.Int
+                        Type = AttributeType.Int,
+                        Weight = 1
                     },
                     new Attribute {
                         Name = "Scalable",
                         Value = "false",
-                        Type = AttributeType.Bool
+                        Type = AttributeType.Bool,
+                        Weight = 1
                     }
                 }
             };
             var item3 = new Item {
                 Id = ObjectId.GenerateNewId(),
+                Name = "TestItem3",
                 Attributes = new List<Attribute> {
                     new Attribute {
                         Name = "Usability",
                         Value = "2",
-                        Type = AttributeType.Int
+                        Type = AttributeType.Int,
+                        Weight = 1
                     },
                     new Attribute {
                         Name = "Price",
                         Value = "7",
-                        Type = AttributeType.Int
+                        Type = AttributeType.Int,
+                        Weight = 1
                     }
                 }
             };
             var item4 = new Item {
                 Id = ObjectId.GenerateNewId(),
+                Name = "TestItem4",
                 Attributes = new List<Attribute> {
                     new Attribute {
                         Name = "Usability",
                         Value = "2",
-                        Type = AttributeType.Int
+                        Type = AttributeType.Int,
+                        Weight = 1
                     },
                     new Attribute {
                         Name = "Price",
                         Value = "2",
-                        Type = AttributeType.Int
+                        Type = AttributeType.Int,
+                        Weight = 1
                     },
                     new Attribute {
                         Name = "Scalable",
                         Value = "true",
-                        Type = AttributeType.Bool
+                        Type = AttributeType.Bool,
+                        Weight = 1
                     }
                 }
             };
@@ -93,17 +108,20 @@ namespace DynamicFilter.Domain.Tests {
                     new Attribute {
                         Name = "Usability",
                         Value = "2",
-                        Type = AttributeType.Int
+                        Type = AttributeType.Int,
+                        Weight = 1
                     },
                     new Attribute {
                         Name = "Price",
                         Value = "2",
-                        Type = AttributeType.Int
+                        Type = AttributeType.Int,
+                        Weight = 1
                     },
                     new Attribute {
                         Name = "Scalable",
                         Value = "true",
-                        Type = AttributeType.Bool
+                        Type = AttributeType.Bool,
+                        Weight = 1
                     }
                 }
             };

@@ -11,8 +11,12 @@ button {
 mat-sidenav {
     width: 250px;
     color: black;
-    background-color: white;
+    background-color: #f5f5f5;
     font-family: 'Roboto', sans-serif !important;
+}
+
+.mat-drawer-container {
+    background-color: #f5f5f5;
 }
 
 .sidenavButton {
