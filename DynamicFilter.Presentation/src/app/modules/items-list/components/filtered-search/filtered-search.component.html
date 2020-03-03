@@ -11,15 +11,24 @@
     </div>
     <div class="filterElement" *ngFor="let attribute of attributes">
       <ng-container>
-        <mat-form-field
-          [formControl]="this.filterFormGroup.get(attribute.name)"
-        >
+        <mat-form-field>
           <mat-label>{{ attribute.name }}</mat-label>
           <mat-select formControlName="{{ attribute.name }}">
             <mat-option>Unset</mat-option>
-            <mat-option *ngFor="let value of attribute.values" [value]="value">
-              {{ value }}
-            </mat-option>
+            <ng-container
+              *ngIf="attribute.type != 2; else boolOptions"
+            >
+              <mat-option
+                *ngFor="let value of attribute.values"
+                [value]="value"
+              >
+                {{ value }}
+              </mat-option>
+            </ng-container>
+            <ng-template #boolOptions>
+              <mat-option value="true">Yes</mat-option>
+              <mat-option value="false">No</mat-option>
+            </ng-template>
           </mat-select>
         </mat-form-field>
       </ng-container>

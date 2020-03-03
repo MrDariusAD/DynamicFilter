@@ -6,7 +6,7 @@ import {
   OnDestroy,
   AfterViewInit
 } from "@angular/core";
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import { COMMA, ENTER } from "@angular/cdk/keycodes";
 import { Item } from "src/app/modules/shared/models/Item";
 import { ApiService } from "src/app/services/api.service";
 import { Subject } from "rxjs";
@@ -14,7 +14,7 @@ import { SearchAttributeModel } from "src/app/modules/shared/models/SearchAttrib
 import { FormBuilder, FormGroup, FormControl } from "@angular/forms";
 import { AttributeType } from "src/app/modules/shared/models/AttributeType.enum";
 import { Attribute } from "src/app/modules/shared/models/Attribute";
-import { FilterChip } from 'src/app/modules/shared/models/FilterChip';
+import { FilterChip } from "src/app/modules/shared/models/FilterChip";
 
 @Component({
   selector: "app-filtered-search",
@@ -79,11 +79,11 @@ export class FilteredSearchComponent
       name: this.filterFormGroup.get("name").value,
       attributes: []
     };
-    if(formItem.name && formItem.name != "") {
-      newChips.push(<FilterChip> {
-        controlName: 'name',
+    if (formItem.name && formItem.name != "") {
+      newChips.push(<FilterChip>{
+        controlName: "name",
         value: `Name: ${formItem.name}`
-      })
+      });
     }
     for (let [key, control] of Object.entries(this.filterFormGroup.controls)) {
       console.log(key, control.value);
@@ -91,18 +91,29 @@ export class FilteredSearchComponent
       if (key == "name") {
         continue;
       }
-      let type: AttributeType;
-      switch (typeof control.value) {
-        case "number":
-          type = AttributeType.int;
-          break;
-        case "string":
-          type = AttributeType.string;
-          break;
-        case "boolean":
-          type = AttributeType.bool;
-          break;
+      // let type: AttributeType;
+      // switch (typeof control.value) {
+      //   case "number":
+      //     type = AttributeType.int;
+      //     break;
+      //   case "string":
+      //     type = AttributeType.string;
+      //     break;
+      //   case "boolean":
+      //     type = AttributeType.bool;
+      //     break;
+      // }
+      let obj: SearchAttributeModel = this.attributes.find(
+        a => a.name == key && a.values.includes(control.value)
+      );
+      if (!obj && ["true", "false"].includes(control.value)) {
+        obj = this.attributes.find(a => a.name == key);
       }
+      if (!obj) {
+        return;
+      }
+      let type = obj["type"];
+      // console.log(obj.type, type);
       if (type == AttributeType.bool && control.value == false) {
         continue;
       }
@@ -112,10 +123,17 @@ export class FilteredSearchComponent
         type: type,
         weight: undefined
       });
-      newChips.push(<FilterChip>{
-        controlName: key,
-        value: `${key}: ${control.value}`
-      });
+      if (type == AttributeType.bool) {
+        newChips.push(<FilterChip>{
+          controlName: key,
+          value: `${key}: ${control.value == "true" ? "Yes" : "No"}`
+        });
+      } else {
+        newChips.push(<FilterChip>{
+          controlName: key,
+          value: `${key}: ${control.value}`
+        });
+      }
     }
     this.filterItem = formItem;
     this.chips = newChips;
