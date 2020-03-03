@@ -6,7 +6,7 @@ namespace DynamicFilter.Domain.Core.Models {
         public string Value { get; set; }
         public AttributeType Type { get; set; }
         [BsonIgnoreIfDefault]
-        public decimal Weight { get; set; }
+        public double Weight { get; set; }
 
         public SearchAttributeModel ToSearchAttributeModel(string[] values) {
             return new SearchAttributeModel {

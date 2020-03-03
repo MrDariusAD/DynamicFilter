@@ -13,7 +13,8 @@ import { FullMaterialModule } from 'src/app/full-material-module';
     FullMaterialModule
   ],
   exports: [
-    CardComponent
+    CardComponent,
+    FullMaterialModule
   ]
 })
 export class SharedModule { }

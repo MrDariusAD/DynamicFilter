@@ -1,5 +1,6 @@
-<app-card *ngIf="item" [title]="item.name" [iconUrl]="item.iconUrl">
-    <div *ngFor="let attribute of item.attributes">
+<app-card *ngIf="result" [title]="result.item.name + result.rateInPercent" [iconUrl]="result.item.iconUrl">
+    <b><span class="pull-right font-lg" [style.color]="getColorForPercentage(100, 0, result.rateInPercent, false)">{{result.rateInPercent}}%</span></b>
+    <div *ngFor="let attribute of result.item.attributes">
         <ng-container *ngIf="attribute.type != 2; else boolOutput">
             <strong>{{attribute.name}}</strong>: {{attribute.value}}
         </ng-container>

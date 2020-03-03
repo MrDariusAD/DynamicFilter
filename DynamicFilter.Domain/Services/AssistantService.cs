@@ -6,22 +6,25 @@ using DynamicFilter.Domain.Core;
 using DynamicFilter.Domain.Core.Models;
 
 namespace DynamicFilter.Domain.Services {
-    public class AssistantService {
-        public static List<AssistantResultReportModel> CalculateOptimalItems(AssistantRequestReportModel reportModel,
+    public static class AssistantService {
+        public static AssistantResultModel CalculateOptimalItems(AssistantRequestModel model,
             List<Item> items) {
-            var result = new List<AssistantResultReportModel>();
+            var result = new List<AssistantResultItemModel>();
             foreach (var item in items) {
-                var percent = decimal.Zero;
-                foreach (var preferenceAttribute in reportModel.PreferenceAttributes) {
+                double percent = 0;
+                foreach (var preferenceAttribute in model.PreferenceAttributes) {
                     if (item.Attributes.Select(attr => attr.Name).Contains(preferenceAttribute.Name) &&
                         item.Attributes.FirstOrDefault(x => x.Name == preferenceAttribute.Name)?.Value ==
                         preferenceAttribute.Value) {
-                        percent += preferenceAttribute.Weight / reportModel.PreferenceAttributes.Sum(x=> x.Weight) * 100;
+                        percent += preferenceAttribute.Weight / model.PreferenceAttributes.Sum(x => x.Weight) * 100;
                     }
                 }
-                result.Add(new AssistantResultReportModel { Item = item, RateInPercent = Math.Round(percent, 2) });
+                result.Add(new AssistantResultItemModel { Item = item.ToReportModel(), RateInPercent = Math.Round(percent, 2) });
             }
-            return result.OrderByDescending(x => x.RateInPercent).ToList();
+
+            return new AssistantResultModel() {
+                Result = result.OrderByDescending(x => x.RateInPercent).ToList()
+            };
         }
     }
 }

@@ -20,7 +20,6 @@ import { ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     SharedModule,
     ItemsListRoutingModule,
-    FullMaterialModule,
     ReactiveFormsModule
   ],
   exports:[

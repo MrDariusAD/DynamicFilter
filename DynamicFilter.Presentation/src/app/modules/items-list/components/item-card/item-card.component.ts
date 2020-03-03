@@ -13,6 +13,10 @@ export class ItemCardComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    this.item.attributes.forEach(x=> {
+      x.value.replace('true', 'Yes');
+      x.value.replace('false', 'No');
+    })
   }
 
 }

@@ -8,12 +8,12 @@ namespace DynamicFilter.WebApi.Controllers {
     [Route("api/[controller]")]
     [ApiController]
     public class AssistantController : ControllerBase {
-        [HttpGet]
+        [HttpPost]
         [Route("CalculateOptimalItems")]
-        public IActionResult CalculateOptimalItem(AssistantRequestReportModel reportModel) {
+        public IActionResult CalculateOptimalItem(AssistantRequestModel model) {
             try {
                 MongoDb.MongoDb.Connect("localhost");
-                return Ok(AssistantService.CalculateOptimalItems(reportModel, MongoDb.MongoDb.Load()));
+                return Ok(AssistantService.CalculateOptimalItems(model, MongoDb.MongoDb.Load()));
             }
             catch (Exception e) {
                 return StatusCode(500, e);

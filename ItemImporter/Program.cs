@@ -8,7 +8,7 @@ using Attribute = DynamicFilter.Domain.Core.Models.Attribute;
 
 namespace ItemImporter {
     class Program {
-        static void Main(string[] args) {
+        static void Main() {
             Console.WriteLine($"DynamicFilterItemImporter{Environment.NewLine}");
 
             var items = new List<Item>();
@@ -18,6 +18,9 @@ namespace ItemImporter {
                 if (name.ToLowerInvariant() == "x") {
                     break;
                 }
+                Console.WriteLine("Icon Url: ");
+                var iconUrl= Console.ReadLine() ?? "";
+
                 var attributes = new List<Attribute>();
                 while (true) {
                     Console.WriteLine("Attribute Name (x to finish): ");
@@ -67,24 +70,25 @@ namespace ItemImporter {
                         Thread.Sleep(2000);
                         continue;
                     }
-                    if (!decimal.TryParse(attributeWeight, out var attributeWeightAsDecimal)) {
+                    if (!double.TryParse(attributeWeight, out var attributeWeightAsDouble)) {
                         Console.WriteLine("Attribute Weight has to be a number!");
                         Thread.Sleep(2000);
                         continue;
                     }
 
                     attributes.Add(new Attribute {
-                        Name = attributeName,
+                        Name = attributeName.Trim(),
                         Type = (AttributeType)attributeTypeAsInt - 1,
-                        Value = attributeValue,
-                        Weight = attributeWeightAsDecimal
+                        Value = attributeValue.Trim(),
+                        Weight = attributeWeightAsDouble
                     });
                 }
 
                 items.Add(new Item {
                     Name = name,
                     Attributes = attributes,
-                    Id = ObjectId.GenerateNewId()
+                    Id = ObjectId.GenerateNewId(),
+                    IconUrl = iconUrl
                 });
 
             }
