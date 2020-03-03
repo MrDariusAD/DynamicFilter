@@ -21,6 +21,9 @@ namespace DynamicFilter.MongoDb {
             OpenCollection(nameof(Item) + "s");
             return _collection.DeleteOne(GetIdFilterDefinition(id)).DeletedCount > 0;
         }
+        public static FilterDefinition<Item> GetIdFilterDefinition(string id) {
+            return Builders<Item>.Filter.Eq("_id", ObjectId.Parse(id));
+        }
 
         #endregion
 
@@ -47,10 +50,6 @@ namespace DynamicFilter.MongoDb {
             if (_lastCollection == collectionName) return;
             _collection = _database.GetCollection<Item>(collectionName);
             _lastCollection = collectionName;
-        }
-
-        public static FilterDefinition<Item> GetIdFilterDefinition(string id) {
-            return Builders<Item>.Filter.Eq("_id", ObjectId.Parse(id));
         }
 
         #endregion

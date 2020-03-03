@@ -1,3 +1,65 @@
 <div class="sidenav-margin">
-    <p>assistant works!</p>
+  <ng-container *ngIf="!searchExecuted; else results">
+    <app-card [title]="'Assistant'">
+      <mat-vertical-stepper [linear]="false" #stepper>
+        <mat-step
+          *ngFor="let attribute of attributes; let i = index"
+          [stepControl]="assistantFormGroup"
+        >
+          <ng-template matStepLabel>{{ attribute.name }}</ng-template>
+          <form [formGroup]="assistantFormGroup">
+            <mat-form-field class="fullWidthSelect">
+              <mat-label>{{ attribute.name }}</mat-label>
+              <mat-select formControlName="{{ attribute.name }}">
+                <mat-option>Unset</mat-option>
+                <ng-container
+                  *ngIf="attribute.type != 2; else boolOptions"
+                >
+                  <mat-option
+                    *ngFor="let value of attribute.values"
+                    [value]="value"
+                  >
+                    {{ value }}
+                  </mat-option>
+                </ng-container>
+                <ng-template #boolOptions>
+                  <mat-option value="true">Yes</mat-option>
+                  <mat-option value="false">No</mat-option>
+                </ng-template>
+              </mat-select>
+            </mat-form-field>
+          </form>
+          <div>
+            <button *ngIf="i > 0" mat-button matStepperPrevious type="button">
+              Back
+            </button>
+            <button mat-button matStepperNext type="button">
+              Next
+            </button>
+            <button mat-button (click)="stepper.reset()" type="button">
+              Reset
+            </button>
+          </div>
+        </mat-step>
+        <mat-step>
+          <ng-template matStepLabel>Done</ng-template>
+          Done. Press the Finish button below to show the results.
+          <div>
+            <button mat-button matStepperPrevious type="button">Back</button>
+            <button mat-button type="button" (click)="calculateOptimalItems()">
+              Finish
+            </button>
+            <button mat-button (click)="stepper.reset()" type="button">
+              Reset
+            </button>
+          </div>
+        </mat-step>
+      </mat-vertical-stepper>
+    </app-card>
+  </ng-container>
+  <ng-template #results> 
+    <ng-container *ngFor="let item of searchResult.result">
+      <app-assistant-result-card [result]="item"></app-assistant-result-card>
+  </ng-container>
+  </ng-template>
 </div>

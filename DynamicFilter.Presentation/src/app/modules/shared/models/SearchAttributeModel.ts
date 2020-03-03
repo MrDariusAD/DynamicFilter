@@ -4,4 +4,5 @@ export interface SearchAttributeModel {
     name: string;
     type: AttributeType;
     values: string[];
+    weight: number;
 }

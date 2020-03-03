@@ -103,7 +103,7 @@ namespace DynamicFilter.Domain.Tests {
                 }
             };
 
-            var reportModel = new AssistantRequestReportModel {
+            var reportModel = new AssistantRequestModel {
                 PreferenceAttributes = new List<Attribute> {
                     new Attribute {
                         Name = "Usability",
@@ -132,21 +132,21 @@ namespace DynamicFilter.Domain.Tests {
                 item2,
                 item3,
                 item4
-            });
+            }).Result;
 
             //Assert
             var first = res.FirstOrDefault();
             first.Should().NotBeNull();
-            first?.Item.Id.Should().BeEquivalentTo(item4.Id);
+            first?.Item.Id.Should().BeEquivalentTo(item4.Id.ToString());
             first?.RateInPercent.Should().Be(100);
             var second = res.ElementAt(1);
-            second.Item.Id.Should().BeEquivalentTo(item2.Id);
-            second.RateInPercent.Should().Be((decimal)66.67);
+            second.Item.Id.Should().BeEquivalentTo(item2.Id.ToString());
+            second.RateInPercent.Should().Be(66.67);
             var third = res.ElementAt(2);
-            third.Item.Id.Should().BeEquivalentTo(item3.Id);
-            third.RateInPercent.Should().Be((decimal)33.33);
+            third.Item.Id.Should().BeEquivalentTo(item3.Id.ToString());
+            third.RateInPercent.Should().Be(33.33);
             var fourth = res.ElementAt(3);
-            fourth.Item.Id.Should().BeEquivalentTo(item1.Id);
+            fourth.Item.Id.Should().BeEquivalentTo(item1.Id.ToString());
             fourth.RateInPercent.Should().Be(0);
         }
     }

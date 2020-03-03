@@ -17,7 +17,7 @@ namespace DynamicFilter.WebApi.Controllers {
         public IActionResult LoadAllItems() {
             try {
                 Connect("localhost");
-                return Ok(Load().Select(x=> x.ToReportModel()));
+                return Ok(Load().Select(x => x.ToReportModel()));
             }
             catch (Exception e) {
                 return StatusCode(500, e);
@@ -39,7 +39,7 @@ namespace DynamicFilter.WebApi.Controllers {
         [HttpPost]
         [Route("LoadWithFilter")]
         public IActionResult LoadWithFilter(Item filterItem) {
-            try{
+            try {
                 Connect("localhost");
                 return Ok(Load(filterItem).Select(x => x.ToReportModel()));
             }
@@ -72,12 +72,13 @@ namespace DynamicFilter.WebApi.Controllers {
                 var distinct = attributes.Distinct(comparer);
 
                 var response = distinct.Select(attribute => new SearchAttributeModel {
-                    Name = attribute.Name, 
-                    Type = attribute.Type, 
-                    Values = attributes.Where(x => x.Name == attribute.Name && x.Type == attribute.Type).Select(x => x.Value).ToArray()
+                    Name = attribute.Name,
+                    Type = attribute.Type,
+                    Values = attributes.Where(x => x.Name == attribute.Name && x.Type == attribute.Type && x.Weight == attribute.Weight).Select(x => x.Value).Distinct().ToArray(),
+                    Weight = attribute.Weight
                 }).ToList();
 
-                return Ok(response.OrderBy(x=> x.Name));
+                return Ok(response.OrderBy(x => x.Name));
             }
             catch (Exception e) {
                 return StatusCode(500, e);
