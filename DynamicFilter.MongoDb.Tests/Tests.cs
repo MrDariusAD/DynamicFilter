@@ -10,7 +10,7 @@ namespace DynamicFilter.MongoDb.Tests {
         [Fact]
         public void Edit_EditAnDocumentInTheDatabase_DocumentIsEdited() {
             //Arrange
-            MongoDb.Connect("localhost");
+            MongoDb.Connect("mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false");
             var id = ObjectId.GenerateNewId().ToString();
             var item = new Item {
                 Id = ObjectId.Parse(id),
@@ -43,7 +43,7 @@ namespace DynamicFilter.MongoDb.Tests {
         [Fact]
         public void Edit_EditTheNameOfAnItem_NameIsEdited() {
             //Arrange
-            MongoDb.Connect("localhost");
+            MongoDb.Connect("mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false");
             var id = ObjectId.GenerateNewId().ToString();
             var item = new Item {
                 Id = ObjectId.Parse(id),
@@ -72,7 +72,7 @@ namespace DynamicFilter.MongoDb.Tests {
         [Fact]
         public void Load_SaveAnExampleItemIntoTheDatabase_ExampleFileIsSavedAndCanBeLoaded() {
             //Arrange
-            MongoDb.Connect("localhost");
+            MongoDb.Connect("mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false");
             var id = ObjectId.GenerateNewId().ToString();
             var item = new Item {
                 Id = ObjectId.Parse(id),
@@ -101,7 +101,7 @@ namespace DynamicFilter.MongoDb.Tests {
         [Fact]
         public void LoadWithFilter_SaveAnExampleItemIntoTheDatabase_ItemGetsLoaded() {
             //Arrange
-            MongoDb.Connect("localhost");
+            MongoDb.Connect("mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false");
             var id = ObjectId.GenerateNewId().ToString();
             var item = new Item {
                 Id = ObjectId.Parse(id),
@@ -156,7 +156,7 @@ namespace DynamicFilter.MongoDb.Tests {
         [Fact]
         public void Load_SaveMultipleExampleItemsIntoTheDatabase_ResultContainsAllExampleItems() {
             //Arrange
-            MongoDb.Connect("localhost");
+            MongoDb.Connect("mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false");
             var item1 = new Item {
                 Id = ObjectId.GenerateNewId(),
                 Name = "TestItem1",
@@ -221,7 +221,7 @@ namespace DynamicFilter.MongoDb.Tests {
         [Fact]
         public void Save_SaveAnExampleItemIntoTheDatabase_ExampleFileIsSavedAndCanBeLoaded() {
             //Arrange
-            MongoDb.Connect("localhost");
+            MongoDb.Connect("mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false");
             var id = ObjectId.GenerateNewId().ToString();
             var item = new Item {
                 Id = ObjectId.Parse(id),

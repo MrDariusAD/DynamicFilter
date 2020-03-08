@@ -15,6 +15,8 @@ import { FormBuilder, FormGroup, FormControl } from "@angular/forms";
 import { AttributeType } from "src/app/modules/shared/models/AttributeType.enum";
 import { Attribute } from "src/app/modules/shared/models/Attribute";
 import { FilterChip } from "src/app/modules/shared/models/FilterChip";
+import { PresentAttributesReportModel } from "src/app/modules/shared/models/PresentAttributesReportModel";
+import { AttributeGroup } from 'src/app/modules/shared/models/AttributeGroup';
 
 @Component({
   selector: "app-filtered-search",
@@ -25,13 +27,17 @@ export class FilteredSearchComponent
   implements OnInit, OnDestroy, AfterViewInit {
   @Output() searchExecuted = new EventEmitter<Item[]>();
 
+  public isInit = false;
   public searchResult: Item[] = [];
-  public attributes: SearchAttributeModel[] = [];
+  public presentAttributes: PresentAttributesReportModel;
   public filterItem: Item = {
     id: "",
     name: "",
     attributes: [],
-    iconUrl: ""
+    attributeGroups: [],
+    iconUrl: "",
+    description: "",
+    websiteUrl: ""
   };
   public visible = true;
   public selectable = true;
@@ -49,8 +55,9 @@ export class FilteredSearchComponent
     private formBuilder: FormBuilder
   ) {
     this.apiService.getAllPresentAttributes().subscribe(response => {
-      this.attributes = response;
+      this.presentAttributes = response;
       this.setFormArrayFromAttributes();
+      this.isInit = true;
     });
   }
 
@@ -72,12 +79,30 @@ export class FilteredSearchComponent
 
   ngAfterViewInit(): void {}
 
+  mergedAttributes(): SearchAttributeModel[] {
+    let result: SearchAttributeModel[] = [];
+    if(this.presentAttributes.attributes) {
+      result.push(...this.presentAttributes.attributes);
+    }
+    if(this.presentAttributes.attributeGroups){
+      this.presentAttributes.attributeGroups.forEach(attributeGroup => {
+        result.push(...attributeGroup.attributes);
+      })
+    }
+    return result;
+  }
+
   public updateFilterItem(form: any): void {
+    console.log(form);
+    if(!this.isInit) {
+      return;
+    }
     let newChips: FilterChip[] = [];
 
     let formItem = <Item>{
       name: this.filterFormGroup.get("name").value,
-      attributes: []
+      attributes: [],
+      attributeGroups: []
     };
     if (formItem.name && formItem.name != "") {
       newChips.push(<FilterChip>{
@@ -85,62 +110,89 @@ export class FilteredSearchComponent
         value: `Name: ${formItem.name}`
       });
     }
+    let mergedAttributes: SearchAttributeModel[] = this.mergedAttributes();
+
     for (let [key, control] of Object.entries(this.filterFormGroup.controls)) {
-      console.log(key, control.value);
       if (!control || control.value == null) continue;
       if (key == "name") {
         continue;
       }
-      // let type: AttributeType;
-      // switch (typeof control.value) {
-      //   case "number":
-      //     type = AttributeType.int;
-      //     break;
-      //   case "string":
-      //     type = AttributeType.string;
-      //     break;
-      //   case "boolean":
-      //     type = AttributeType.bool;
-      //     break;
-      // }
-      let obj: SearchAttributeModel = this.attributes.find(
-        a => a.name == key && a.values.includes(control.value)
+
+      let groupName;
+      let name = key;
+      if(key.includes('-$-')) {
+        let splits = key.split('-$-');
+        groupName = splits[0];
+        name = splits[1];
+      }
+
+      let obj: SearchAttributeModel = mergedAttributes.find(
+        a => a.name == name && a.values.includes(control.value)
       );
       if (!obj && ["true", "false"].includes(control.value)) {
-        obj = this.attributes.find(a => a.name == key);
+        obj = mergedAttributes.find(a => a.name == name);
       }
       if (!obj) {
         return;
       }
       let type = obj["type"];
-      // console.log(obj.type, type);
       if (type == AttributeType.bool && control.value == false) {
         continue;
       }
-      formItem.attributes.push(<Attribute>{
-        name: key,
-        value: control.value,
-        type: type,
-        weight: undefined
-      });
-      if (type == AttributeType.bool) {
-        newChips.push(<FilterChip>{
-          controlName: key,
-          value: `${key}: ${control.value == "true" ? "Yes" : "No"}`
+
+      if(groupName) {
+        if(!formItem.attributeGroups.map(x=> x.name).includes(groupName)) {
+          formItem.attributeGroups.push(<AttributeGroup>{
+            name: groupName,
+            attributes: []
+          });
+        }
+        formItem.attributeGroups.find(x=> x.name == groupName).attributes.push(<Attribute>{
+          name: name,
+          value: control.value,
+          type: type,
+          weight: undefined
         });
-      } else {
-        newChips.push(<FilterChip>{
-          controlName: key,
-          value: `${key}: ${control.value}`
-        });
+        if (type == AttributeType.bool) {
+          newChips.push(<FilterChip>{
+            controlName: key,
+            value: `[${groupName}] ${name}: ${control.value == "true" ? "Yes" : "No"}`
+          });
+        } else {
+          newChips.push(<FilterChip>{
+            controlName: key,
+            value: `[${groupName}] ${name}: ${control.value}`
+          });
+        }
       }
+      else{
+        formItem.attributes.push(<Attribute>{
+          name: name,
+          value: control.value,
+          type: type,
+          weight: undefined
+        });
+        if (type == AttributeType.bool) {
+          newChips.push(<FilterChip>{
+            controlName: key,
+            value: `${name}: ${control.value == "true" ? "Yes" : "No"}`
+          });
+        } else {
+          newChips.push(<FilterChip>{
+            controlName: key,
+            value: `${name}: ${control.value}`
+          });
+        }
+      }
+
+
     }
     this.filterItem = formItem;
     this.chips = newChips;
   }
 
   setFormArrayFromAttributes() {
-    this.attributes.forEach(attribute => {
+    this.presentAttributes.attributes.forEach(attribute => {
       this.filterFormGroup.addControl(
         attribute.name,
         this.formBuilder.control({
@@ -148,10 +200,26 @@ export class FilteredSearchComponent
         })
       );
     });
+
+    this.presentAttributes.attributeGroups.forEach(attributeGroup => {
+      attributeGroup.attributes.forEach(attribute => {
+        let controlName = attributeGroup.name + '-$-' + attribute.name;
+        this.filterFormGroup.addControl(
+          controlName,
+          this.formBuilder.control({
+            [attribute.name]: ""
+          })
+        );
+      });
+    });
     this.filterFormGroup.reset();
+    console.log(this.filterFormGroup);
   }
 
   public search(filterItem: Item): void {
+    if(!this.isInit) {
+      return;
+    }
     this.apiService.getItemsWithFilter(filterItem).subscribe(response => {
       this.searchResult = response;
       this.searchExecuted.emit(response);
@@ -166,4 +234,6 @@ export class FilteredSearchComponent
     this.unsubscribe.next();
     this.unsubscribe.complete();
   }
+
+
 }

@@ -12,11 +12,32 @@ namespace DynamicFilter.Domain.Services {
             var result = new List<AssistantResultItemModel>();
             foreach (var item in items) {
                 double percent = 0;
-                foreach (var preferenceAttribute in model.PreferenceAttributes) {
-                    if (item.Attributes.Select(attr => attr.Name).Contains(preferenceAttribute.Name) &&
-                        item.Attributes.FirstOrDefault(x => x.Name == preferenceAttribute.Name)?.Value ==
-                        preferenceAttribute.Value) {
-                        percent += preferenceAttribute.Weight / model.PreferenceAttributes.Sum(x => x.Weight) * 100;
+
+                if (model.PreferenceAttributeGroups != null) {
+
+
+                    foreach (var preferenceAttributeGroup in model.PreferenceAttributeGroups) {
+                        foreach (var preferencedAttribute in preferenceAttributeGroup.Attributes) {
+                            var hasAttribute = item.AttributeGroups
+                                                   .FirstOrDefault(x => x.Name == preferenceAttributeGroup.Name) !=
+                                               null;
+                            var hasValue = item.AttributeGroups
+                                               .FirstOrDefault(x => x.Name == preferenceAttributeGroup.Name)?.Attributes
+                                               .FirstOrDefault(x => x.Name == preferencedAttribute.Name)?.Value ==
+                                           preferencedAttribute.Value;
+                            if (hasAttribute && hasValue) {
+                                percent += preferencedAttribute.Weight / model.GetMergedAttributes().Sum(x => x.Weight) * 100;
+                            }
+                        }
+                    }
+                }
+                if (model.PreferenceAttributes != null) {
+                    foreach (var preferencedAttribute in model.PreferenceAttributes) {
+                        if (item.GetMergedAttributes().Select(attr => attr.Name).Contains(preferencedAttribute.Name) &&
+                            item.GetMergedAttributes().FirstOrDefault(x => x.Name == preferencedAttribute.Name)?.Value ==
+                            preferencedAttribute.Value) {
+                            percent += preferencedAttribute.Weight / model.GetMergedAttributes().Sum(x => x.Weight) * 100;
+                        }
                     }
                 }
                 result.Add(new AssistantResultItemModel { Item = item.ToReportModel(), RateInPercent = Math.Round(percent, 2) });

@@ -1,0 +1,34 @@
+<ng-container *ngIf="attribute.type != 2; else boolOutput">
+    <div
+    [ngClass]="{
+      'correct-attribute': isRight,
+      'wrong-attribute': isWrong
+    }"
+  >
+  <strong>{{ attribute.name }}</strong
+  >: {{ attribute.value }}
+  </div>
+</ng-container>
+<ng-template #boolOutput>
+  <ng-container *ngIf="attribute.value == 'true'">
+    <div
+      [ngClass]="{
+        'correct-attribute': isRight,
+        'wrong-attribute': isWrong
+      }"
+    >
+      <strong>{{ attribute.name }}</strong
+      >: Yes
+    </div>
+  </ng-container>
+  <ng-container *ngIf="attribute.value == 'false'">
+    <div
+      [ngClass]="{
+        'correct-attribute': isRight,
+        'wrong-attribute': isWrong
+      }"
+    >
+      <strong>{{ attribute.name }}</strong>: No
+    </div>
+  </ng-container>
+</ng-template>

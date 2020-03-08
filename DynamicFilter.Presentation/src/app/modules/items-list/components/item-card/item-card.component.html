@@ -1,15 +1,15 @@
 <app-card *ngIf="item" [title]="item.name" [iconUrl]="item.iconUrl">
+    <mat-card-subtitle>{{item.description}}</mat-card-subtitle>
     <div *ngFor="let attribute of item.attributes">
-        <ng-container *ngIf="attribute.type != 2; else boolOutput">
-            <strong>{{attribute.name}}</strong>: {{attribute.value}}
-        </ng-container>
-        <ng-template #boolOutput>
-            <ng-container *ngIf="attribute.value=='true'">
-                <strong>{{attribute.name}}</strong>: Yes
-            </ng-container>
-            <ng-container *ngIf="attribute.value=='false'">
-                <strong>{{attribute.name}}</strong>: No
-            </ng-container>
-        </ng-template>
+        <app-attribute-in-card-output [attribute]="attribute"></app-attribute-in-card-output>
     </div>
+    <div *ngFor="let attributeGroup of item.attributeGroups" style="margin-bottom: 10px">
+        <b><u>{{attributeGroup.name}}</u></b>
+        <div *ngFor="let attribute of attributeGroup.attributes" style="text-indent: 20px;">
+            <app-attribute-in-card-output [attribute]="attribute"></app-attribute-in-card-output>
+        </div>
+    </div>
+    <mat-card-actions>
+        <a mat-raised-button href="{{item.websiteUrl}}" *ngIf="item.websiteUrl" target="_blank" color="secondary"><strong>Website ➜</strong></a>
+      </mat-card-actions>
 </app-card>

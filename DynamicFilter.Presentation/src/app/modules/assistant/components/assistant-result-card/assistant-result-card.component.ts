@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { AssistantResultItemModel } from "src/app/modules/shared/models/AssistantResultItemModel";
+import { AssistantRequestModel } from 'src/app/modules/shared/models/AssistantRequestModel';
 
 @Component({
   selector: "app-assistant-result-card",
@@ -8,10 +9,14 @@ import { AssistantResultItemModel } from "src/app/modules/shared/models/Assistan
 })
 export class AssistantResultCardComponent implements OnInit {
   @Input() result: AssistantResultItemModel;
+  @Input() request: AssistantRequestModel;
 
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log(this.request);
+  }
+
 
   public percentColors = [
     { pct: 0, color: { r: 0xff, g: 0x00, b: 0 } },
@@ -41,5 +46,24 @@ export class AssistantResultCardComponent implements OnInit {
       }
     }
     return "rgb(" + r.toString() + ", " + g.toString() + ", 0)";
+  }
+
+  public isPreferencedAttribute(attributeName: string, groupName: string = null) {
+    if(groupName) {
+      return this.request.preferenceAttributeGroups.find(x=> x.name==groupName)?.attributes.map(x=> x.name).includes(attributeName)
+    }
+    return this.request.preferenceAttributes.map(x=> x.name).includes(attributeName);
+  }
+
+  public hasRequestedValue(attributeName: string, attributeValue: string, groupName: string = null) {
+    let attributeInRequest;
+    if(groupName) {
+      attributeInRequest = this.request.preferenceAttributeGroups.find(x=> x.name==groupName)?.attributes.find(x=> x.name == attributeName);
+    }
+    else {
+      attributeInRequest = this.request.preferenceAttributes.find(x=> x.name == attributeName);
+    }
+    if(!attributeInRequest) return false;
+    return attributeInRequest.value == attributeValue;
   }
 }

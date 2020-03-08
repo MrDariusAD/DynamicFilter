@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using DynamicFilter.Domain.Comparer;
 using DynamicFilter.Domain.Core;
 using DynamicFilter.Domain.Core.Models;
 using MongoDB.Bson;
@@ -29,13 +31,12 @@ namespace DynamicFilter.MongoDb {
 
         #region Infrastructure
 
-        public static void Connect(string connectionUrl) {
+        public static void Connect(string connectionString) {
             if (_isConnected) return;
-            _client = new MongoClient(new MongoClientSettings {
-                Server = new MongoServerAddress(connectionUrl)
-            });
+            _client = new MongoClient(connectionString);
             _isConnected = true;
         }
+
 
         private static void OpenDatabase(string databaseName) {
             if (!_isConnected) return;
@@ -65,10 +66,27 @@ namespace DynamicFilter.MongoDb {
                 var regex = new BsonRegularExpression($".*{filterItem.Name}.*", "i");
                 buildFilter &= filter.Regex(x => x.Name, regex);
             }
-            foreach (var attribute in filterItem.Attributes)
-            {
-              buildFilter &= filter.ElemMatch(x => x.Attributes, y => y.Name == attribute.Name && y.Value == attribute.Value);
+
+            if (filterItem.Attributes != null) {
+                foreach (var attribute in filterItem.Attributes) {
+                    if (attribute == null) continue;
+                    buildFilter &= filter.ElemMatch(x => x.Attributes, y => y.Name == attribute.Name && y.Value == attribute.Value);
+                }
             }
+
+
+            var comparer = new AttributeComparer();
+            if (filterItem.AttributeGroups != null) {
+                foreach (var attributeGroup in filterItem.AttributeGroups) {
+                    if (attributeGroup == null) continue;
+                    foreach (var attribute in attributeGroup.Attributes) {
+                        if (attribute == null) continue;
+                        buildFilter &= filter.ElemMatch(x => x.AttributeGroups,
+                            y => y.Name == attributeGroup.Name && y.Attributes.Any(z=> z.Name == attribute.Name && z.Value == attribute.Value));
+                    }
+                }
+            }
+
             var result = _collection.Find(buildFilter).ToList();
             return result;
         }
@@ -122,7 +140,7 @@ namespace DynamicFilter.MongoDb {
                            updateDef)
                        .ModifiedCount > 0;
         }
-        
+
         public static bool Edit(string id, string newName) {
             if (!_isConnected) return false;
             OpenCollection(nameof(Item) + "s");

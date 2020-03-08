@@ -11,7 +11,7 @@ namespace DynamicFilter.Domain.Tests {
         [Fact]
         public void CalculateOptimalItem_MethodIsCalledWithTheUserPreferences_AssistantReturnsAListOrderedByHitRate() {
             //Arrange
-            MongoDb.MongoDb.Connect("localhost");
+            MongoDb.MongoDb.Connect("mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false");
             var item1 = new Item {
                 Id = ObjectId.GenerateNewId(),
                 Name = "TestItem1",
