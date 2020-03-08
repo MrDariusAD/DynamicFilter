@@ -12,7 +12,7 @@ namespace DynamicFilter.WebApi.Controllers {
         [Route("CalculateOptimalItems")]
         public IActionResult CalculateOptimalItem(AssistantRequestModel model) {
             try {
-                MongoDb.MongoDb.Connect("localhost");
+                MongoDb.MongoDb.Connect("mongodb+srv://dynamicfilter:LJSMC_58542@dynamicfiltercluster-6dumn.gcp.mongodb.net/test?retryWrites=true&w=majority");
                 return Ok(AssistantService.CalculateOptimalItems(model, MongoDb.MongoDb.Load()));
             }
             catch (Exception e) {

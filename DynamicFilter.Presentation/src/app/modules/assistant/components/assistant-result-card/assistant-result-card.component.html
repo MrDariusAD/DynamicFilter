@@ -1,16 +1,60 @@
-<app-card *ngIf="result" [title]="result.item.name + result.rateInPercent" [iconUrl]="result.item.iconUrl">
-    <b><span class="pull-right font-lg" [style.color]="getColorForPercentage(100, 0, result.rateInPercent, false)">{{result.rateInPercent}}%</span></b>
-    <div *ngFor="let attribute of result.item.attributes">
-        <ng-container *ngIf="attribute.type != 2; else boolOutput">
-            <strong>{{attribute.name}}</strong>: {{attribute.value}}
-        </ng-container>
-        <ng-template #boolOutput>
-            <ng-container *ngIf="attribute.value=='true'">
-                <strong>{{attribute.name}}</strong>: Yes
-            </ng-container>
-            <ng-container *ngIf="attribute.value=='false'">
-                <strong>{{attribute.name}}</strong>: No
-            </ng-container>
-        </ng-template>
+<app-card
+  *ngIf="result"
+  [title]="result.item.name"
+  [iconUrl]="result.item.iconUrl"
+>
+  <b
+    ><span
+      class="pull-right font-lg"
+      [style.color]="getColorForPercentage(100, 0, result.rateInPercent, false)"
+      >{{ result.rateInPercent }}%</span
+    ></b
+  >
+  <mat-card-subtitle>{{ result.item.description }}</mat-card-subtitle>
+  <div *ngFor="let attribute of result.item.attributes">
+    <app-attribute-in-card-output
+      [attribute]="attribute"
+      [isRight]="
+        isPreferencedAttribute(attribute.name) &&
+        hasRequestedValue(attribute.name, attribute.value)
+      "
+      [isWrong]="
+        isPreferencedAttribute(attribute.name) &&
+        !hasRequestedValue(attribute.name, attribute.value)
+      "
+    ></app-attribute-in-card-output>
+  </div>
+  <div
+    *ngFor="let attributeGroup of result.item.attributeGroups"
+    style="margin-bottom: 10px"
+  >
+    <b
+      ><u>{{ attributeGroup.name }}</u></b
+    >
+    <div
+      *ngFor="let attribute of attributeGroup.attributes"
+      style="text-indent: 20px;"
+    >
+      <app-attribute-in-card-output
+        [attribute]="attribute"
+        [isRight]="
+        isPreferencedAttribute(attribute.name, attributeGroup.name) &&
+        hasRequestedValue(attribute.name, attribute.value, attributeGroup.name)
+      "
+      [isWrong]="
+        isPreferencedAttribute(attribute.name, attributeGroup.name) &&
+        !hasRequestedValue(attribute.name, attribute.value, attributeGroup.name)
+      "
+      ></app-attribute-in-card-output>
     </div>
+  </div>
+  <mat-card-actions>
+    <a
+      mat-button
+      href="{{ result.item.websiteUrl }}"
+      *ngIf="result.item.websiteUrl"
+      target="_blank"
+      ><strong>Website ➜</strong></a
+    >
+  </mat-card-actions>
 </app-card>

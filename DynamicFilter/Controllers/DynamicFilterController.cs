@@ -16,7 +16,7 @@ namespace DynamicFilter.WebApi.Controllers {
         [Route("LoadAllItems")]
         public IActionResult LoadAllItems() {
             try {
-                Connect("localhost");
+                Connect("mongodb+srv://dynamicfilter:LJSMC_58542@dynamicfiltercluster-6dumn.gcp.mongodb.net/test?retryWrites=true&w=majority");
                 return Ok(Load().Select(x => x.ToReportModel()));
             }
             catch (Exception e) {
@@ -28,7 +28,7 @@ namespace DynamicFilter.WebApi.Controllers {
         [Route("LoadItem/{id}")]
         public IActionResult LoadItem(string id) {
             try {
-                Connect("localhost");
+                Connect("mongodb+srv://dynamicfilter:LJSMC_58542@dynamicfiltercluster-6dumn.gcp.mongodb.net/test?retryWrites=true&w=majority");
                 return Ok(Load(id).ToReportModel());
             }
             catch (Exception e) {
@@ -40,7 +40,7 @@ namespace DynamicFilter.WebApi.Controllers {
         [Route("LoadWithFilter")]
         public IActionResult LoadWithFilter(Item filterItem) {
             try {
-                Connect("localhost");
+                Connect("mongodb+srv://dynamicfilter:LJSMC_58542@dynamicfiltercluster-6dumn.gcp.mongodb.net/test?retryWrites=true&w=majority");
                 return Ok(Load(filterItem).Select(x => x.ToReportModel()));
             }
             catch (Exception e) {
@@ -52,7 +52,7 @@ namespace DynamicFilter.WebApi.Controllers {
         [Route("SaveItem")]
         public IActionResult SaveItem([FromBody] Item toSave) {
             try {
-                Connect("localhost");
+                Connect("mongodb+srv://dynamicfilter:LJSMC_58542@dynamicfiltercluster-6dumn.gcp.mongodb.net/test?retryWrites=true&w=majority");
                 Save(toSave);
                 return Ok();
             }
@@ -65,20 +65,51 @@ namespace DynamicFilter.WebApi.Controllers {
         [Route("GetAllPresentAttributes")]
         public IActionResult GetAllPresentAttributes() {
             try {
-                Connect("localhost");
+                Connect(
+                    "mongodb+srv://dynamicfilter:LJSMC_58542@dynamicfiltercluster-6dumn.gcp.mongodb.net/test?retryWrites=true&w=majority");
                 var allItems = Load();
                 var comparer = new AttributeComparer();
-                var attributes = allItems.SelectMany(x => x.Attributes) as Attribute[] ?? allItems.SelectMany(x => x.Attributes).ToArray();
-                var distinct = attributes.Distinct(comparer);
 
-                var response = distinct.Select(attribute => new SearchAttributeModel {
-                    Name = attribute.Name,
-                    Type = attribute.Type,
-                    Values = attributes.Where(x => x.Name == attribute.Name && x.Type == attribute.Type && x.Weight == attribute.Weight).Select(x => x.Value).Distinct().ToArray(),
-                    Weight = attribute.Weight
-                }).ToList();
+                var attributes = allItems.SelectMany(x => x.Attributes) as Attribute[] ??
+                                 allItems.SelectMany(x => x.Attributes).ToArray();
+                var attributeGroups = allItems.SelectMany(x => x.AttributeGroups);
+                var groupAttributes =
+                    allItems.SelectMany(x => x.AttributeGroups).SelectMany(x => x.Attributes) as Attribute[]
+                    ?? allItems.SelectMany(x => x.AttributeGroups).SelectMany(x => x.Attributes).ToArray();
+                var distinctAttributes = attributes.Distinct(comparer);
+                var distinctGroupAttributes = groupAttributes.Distinct(comparer);
 
-                return Ok(response.OrderBy(x => x.Name));
+                var searchAttributeGroupModels = new List<SearchAttributeGroupModel>();
+
+                foreach (var groupName in attributeGroups.Select(x => x.Name).Distinct()) {
+
+                    searchAttributeGroupModels.Add(new SearchAttributeGroupModel {
+                        Name = groupName,
+                        Attributes = attributeGroups.FirstOrDefault(x=> x.Name == groupName).Attributes.Select(
+                            attribute => new SearchAttributeModel {
+                                Name = attribute.Name,
+                                Type = attribute.Type,
+                                Values = groupAttributes.Where(x => x.Name == attribute.Name && x.Type == attribute.Type &&
+                                                                    x.Weight == attribute.Weight).Select(x=> x.Value).Distinct().ToArray(),
+                                Weight = attribute.Weight
+                            }).ToList()
+                    });
+                }
+
+
+                var response = new PresentAttributesReportModel {
+                    Attributes = distinctAttributes.Select(attribute => new SearchAttributeModel {
+                        Name = attribute.Name,
+                        Type = attribute.Type,
+                        Values = attributes
+                            .Where(x => x.Name == attribute.Name && x.Type == attribute.Type &&
+                                        x.Weight == attribute.Weight).Select(x => x.Value).Distinct().ToArray(),
+                        Weight = attribute.Weight
+                    }).ToList(),
+                    AttributeGroups = searchAttributeGroupModels
+                };
+
+                return Ok(response);
             }
             catch (Exception e) {
                 return StatusCode(500, e);

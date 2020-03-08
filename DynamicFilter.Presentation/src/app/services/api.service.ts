@@ -4,12 +4,13 @@ import { Item } from '../modules/shared/models/Item';
 import { SearchAttributeModel } from '../modules/shared/models/SearchAttributeModel';
 import { AssistantRequestModel } from '../modules/shared/models/AssistantRequestModel';
 import { AssistantResultModel } from '../modules/shared/models/AssistantResultModel';
+import { PresentAttributesReportModel } from '../modules/shared/models/PresentAttributesReportModel';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
-  baseUrl: string = 'https://localhost:44352/api'
+  baseUrl: string = 'https://localhost:44352/api' //http://93.194.50.165:5000/api
 
   constructor(private httpClient: HttpClient) { }
   
@@ -20,7 +21,7 @@ export class ApiService {
     return this.httpClient.post<Item[]>(this.baseUrl + `/DynamicFilter/LoadWithFilter`,filterItem);
   }
   public getAllPresentAttributes() {
-    return this.httpClient.get<SearchAttributeModel[]>(this.baseUrl + '/DynamicFilter/GetAllPresentAttributes');
+    return this.httpClient.get<PresentAttributesReportModel>(this.baseUrl + '/DynamicFilter/GetAllPresentAttributes');
   }
   public calculateOptimalItems(request: AssistantRequestModel) {
     return this.httpClient.post<AssistantResultModel>(this.baseUrl + `/Assistant/CalculateOptimalItems`,request);

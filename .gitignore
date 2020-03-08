@@ -385,3 +385,10 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+
+#Angular Build Output
+/*DynamicFilter.Presentation/dist*
+DynamicFilter.Presentation/dist/*
+
+#.NET Core Publish
