@@ -1,0 +1,110 @@
+/* You can add global styles to this file, and also import other style files */
+$primaryColor: #9e1981;
+$secondaryColor: #01487C;
+$alternativeColor: #495057;
+$successColor: #2eb200;
+$warningColor: #fed419;
+$dangerColor: #f12a1c;
+$backgroundColor: #e4ece7;
+$headerColor: #47524f;
+
+
+$primaryColorPalette: (
+    50 : #f3e3f0,
+    100 : #e2bad9,
+    200 : #cf8cc0,
+    300 : #bb5ea7,
+    400 : #ad3c94,
+    500 : #9e1981,
+    600 : #961679,
+    700 : #8c126e,
+    800 : #820e64,
+    900 : #700851,
+    A100 : #ffa1df,
+    A200 : #ff6ece,
+    A400 : #ff3bbd,
+    A700 : #ff21b4,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #ffffff,
+    )
+);
+
+$secondaryColorPalette: (
+    50 : #e1e9ef,
+    100 : #b3c8d8,
+    200 : #80a4be,
+    300 : #4d7fa3,
+    400 : #276390,
+    500 : #01487c,
+    600 : #014174,
+    700 : #013869,
+    800 : #01305f,
+    900 : #00214c,
+    A100 : #80aaff,
+    A200 : #4d88ff,
+    A400 : #1a66ff,
+    A700 : #0055ff,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #ffffff,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #ffffff,
+        A700 : #ffffff,
+    )
+);
+
+$warningColorPalette: (
+    50 : #fffae3,
+    100 : #fff2ba,
+    200 : #ffea8c,
+    300 : #fee15e,
+    400 : #feda3c,
+    500 : #fed419,
+    600 : #fecf16,
+    700 : #fec912,
+    800 : #fec30e,
+    900 : #fdb908,
+    A100 : #ffffff,
+    A200 : #fffbf2,
+    A400 : #ffebbf,
+    A700 : #ffe4a6,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #000000,
+        600 : #000000,
+        700 : #000000,
+        800 : #000000,
+        900 : #000000,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+

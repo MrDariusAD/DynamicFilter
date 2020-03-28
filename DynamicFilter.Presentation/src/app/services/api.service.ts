@@ -10,7 +10,7 @@ import { PresentAttributesReportModel } from '../modules/shared/models/PresentAt
   providedIn: 'root'
 })
 export class ApiService {
-  baseUrl: string = 'https://localhost:44352/api' //http://93.194.50.165:5000/api
+  baseUrl: string = 'http://webapi.dynamicfilter.maikunity.de:32787/api' //http://93.194.50.165:5000/api | https://localhost:5001/api | http://webapi.dynamicfilter.maikunity.de:32787/api
 
   constructor(private httpClient: HttpClient) { }
   
@@ -25,5 +25,11 @@ export class ApiService {
   }
   public calculateOptimalItems(request: AssistantRequestModel) {
     return this.httpClient.post<AssistantResultModel>(this.baseUrl + `/Assistant/CalculateOptimalItems`,request);
+  }
+  public checkLicense() {
+    return this.httpClient.get<boolean>(this.baseUrl + `/Licensing/CheckActivation`)
+  }
+  public activateLicense(productKey: string) {
+    return this.httpClient.get<boolean>(this.baseUrl + `/Licensing/ActivateProduct?productKey=${productKey}`)
   }
 }

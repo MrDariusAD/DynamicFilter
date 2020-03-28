@@ -1,0 +1,19 @@
+<h1 mat-dialog-title>License Activation</h1>
+<div mat-dialog-content>
+    <b color="primary">{{data.message}}</b>
+  <p>Please enter a valid license key</p>
+  <mat-form-field>
+    <mat-label>License key</mat-label>
+    <input matInput [(ngModel)]="data.licenseKey">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onOkClick()">
+      <ng-container *ngIf="!isLoading; else loading">
+          Ok
+        </ng-container>
+        <ng-template #loading>
+            <mat-spinner [diameter]="25"></mat-spinner>
+        </ng-template>
+    </button>
+</div>
