@@ -1,6 +1,6 @@
 <app-card *ngIf="item" [title]="item.name" [iconUrl]="item.iconUrl">
     <mat-card-subtitle>{{item.description}}</mat-card-subtitle>
-    <div *ngFor="let attribute of item.attributes">
+    <!-- <div *ngFor="let attribute of item.attributes">
         <app-attribute-in-card-output [attribute]="attribute"></app-attribute-in-card-output>
     </div>
     <div *ngFor="let attributeGroup of item.attributeGroups" style="margin-bottom: 10px">
@@ -8,7 +8,7 @@
         <div *ngFor="let attribute of attributeGroup.attributes" style="text-indent: 20px;">
             <app-attribute-in-card-output [attribute]="attribute"></app-attribute-in-card-output>
         </div>
-    </div>
+    </div> -->
     <mat-card-actions>
         <a mat-raised-button href="{{item.websiteUrl}}" *ngIf="item.websiteUrl" target="_blank" color="secondary"><strong>Website ➜</strong></a>
       </mat-card-actions>

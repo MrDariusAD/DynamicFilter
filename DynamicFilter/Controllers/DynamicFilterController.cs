@@ -12,11 +12,17 @@ namespace DynamicFilter.WebApi.Controllers {
     [Route("api/DynamicFilter")]
     [ApiController]
     public class DynamicFilterController : ControllerBase {
+        public bool CheckLicense() {
+            return Licensing.Licencsing.CheckLicense(Licensing.Licencsing.LicenseKey ?? "");
+        }
+
         [HttpGet]
         [Route("LoadAllItems")]
         public IActionResult LoadAllItems() {
+            if (!CheckLicense()) return Unauthorized("Product not licensed");
+            Console.WriteLine("Loading all items...");
             try {
-                Connect("mongodb+srv://dynamicfilter:LJSMC_58542@dynamicfiltercluster-6dumn.gcp.mongodb.net/test?retryWrites=true&w=majority");
+                Connect("mongodb://h2872984.stratoserver.net:27017/DynamicFilter?ssl=false");
                 return Ok(Load().Select(x => x.ToReportModel()));
             }
             catch (Exception e) {
@@ -27,8 +33,10 @@ namespace DynamicFilter.WebApi.Controllers {
         [HttpGet]
         [Route("LoadItem/{id}")]
         public IActionResult LoadItem(string id) {
+            if (!CheckLicense())
+                return Unauthorized("Product not licensed");
             try {
-                Connect("mongodb+srv://dynamicfilter:LJSMC_58542@dynamicfiltercluster-6dumn.gcp.mongodb.net/test?retryWrites=true&w=majority");
+                Connect("mongodb://h2872984.stratoserver.net:27017/DynamicFilter?ssl=false");
                 return Ok(Load(id).ToReportModel());
             }
             catch (Exception e) {
@@ -39,8 +47,10 @@ namespace DynamicFilter.WebApi.Controllers {
         [HttpPost]
         [Route("LoadWithFilter")]
         public IActionResult LoadWithFilter(Item filterItem) {
+            if (!CheckLicense())
+                return Unauthorized("Product not licensed");
             try {
-                Connect("mongodb+srv://dynamicfilter:LJSMC_58542@dynamicfiltercluster-6dumn.gcp.mongodb.net/test?retryWrites=true&w=majority");
+                Connect("mongodb://h2872984.stratoserver.net:27017/DynamicFilter?ssl=false");
                 return Ok(Load(filterItem).Select(x => x.ToReportModel()));
             }
             catch (Exception e) {
@@ -51,8 +61,10 @@ namespace DynamicFilter.WebApi.Controllers {
         [HttpGet]
         [Route("SaveItem")]
         public IActionResult SaveItem([FromBody] Item toSave) {
+            if (!CheckLicense())
+                return Unauthorized("Product not licensed");
             try {
-                Connect("mongodb+srv://dynamicfilter:LJSMC_58542@dynamicfiltercluster-6dumn.gcp.mongodb.net/test?retryWrites=true&w=majority");
+                Connect("mongodb://h2872984.stratoserver.net:27017/DynamicFilter?ssl=false");
                 Save(toSave);
                 return Ok();
             }
@@ -64,9 +76,11 @@ namespace DynamicFilter.WebApi.Controllers {
         [HttpGet]
         [Route("GetAllPresentAttributes")]
         public IActionResult GetAllPresentAttributes() {
+            if (!CheckLicense())
+                return Unauthorized("Product not licensed");
             try {
                 Connect(
-                    "mongodb+srv://dynamicfilter:LJSMC_58542@dynamicfiltercluster-6dumn.gcp.mongodb.net/test?retryWrites=true&w=majority");
+                    "mongodb://h2872984.stratoserver.net:27017/DynamicFilter?ssl=false");
                 var allItems = Load();
                 var comparer = new AttributeComparer();
 

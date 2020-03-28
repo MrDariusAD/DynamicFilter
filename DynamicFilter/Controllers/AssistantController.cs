@@ -11,13 +11,19 @@ namespace DynamicFilter.WebApi.Controllers {
         [HttpPost]
         [Route("CalculateOptimalItems")]
         public IActionResult CalculateOptimalItem(AssistantRequestModel model) {
+            if (!CheckLicense())
+                return Unauthorized("Product not licensed");
             try {
-                MongoDb.MongoDb.Connect("mongodb+srv://dynamicfilter:LJSMC_58542@dynamicfiltercluster-6dumn.gcp.mongodb.net/test?retryWrites=true&w=majority");
+                MongoDb.MongoDb.Connect("mongodb://h2872984.stratoserver.net:27017/DynamicFilter?ssl=false");
                 return Ok(AssistantService.CalculateOptimalItems(model, MongoDb.MongoDb.Load()));
             }
             catch (Exception e) {
                 return StatusCode(500, e);
             }
+        }
+
+        private bool CheckLicense() {
+            return Licensing.Licencsing.CheckLicense(Licensing.Licencsing.LicenseKey ?? "");
         }
     }
 }

@@ -40,7 +40,6 @@ export class AssistantComponent implements OnInit {
   ngOnInit(): void {
     this.assistantFormGroup = this.formBuilder.group({
     });
-    console.log(this.assistantRequestModel);
 
   }
 

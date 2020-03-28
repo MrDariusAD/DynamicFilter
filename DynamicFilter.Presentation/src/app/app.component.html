@@ -1,3 +1,6 @@
 <app-sidenav>
-    <router-outlet></router-outlet>
+    <router-outlet *ngIf="isProductActivated && licenseChecked; else unlicensed"></router-outlet>
+    <ng-template #unlicensed>
+        Product Unlicensed
+    </ng-template>
 </app-sidenav>

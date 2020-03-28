@@ -93,7 +93,6 @@ export class FilteredSearchComponent
   }
 
   public updateFilterItem(form: any): void {
-    console.log(form);
     if(!this.isInit) {
       return;
     }
@@ -213,7 +212,6 @@ export class FilteredSearchComponent
       });
     });
     this.filterFormGroup.reset();
-    console.log(this.filterFormGroup);
   }
 
   public search(filterItem: Item): void {
